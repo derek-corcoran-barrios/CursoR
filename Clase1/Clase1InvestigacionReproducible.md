@@ -1,37 +1,42 @@
-Clase1InvestigacionReproducible
+<style>
+.small-code pre code {
+font-size: 1em;
+}
+</style>
+
+
+Clase1: Investigacion Reproducible
 ========================================================
 author: Derek Corcoran
-date: `r `
+date: "02 October, 2017"
 autosize: true
+transition: rotate
 
-First Slide
-========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
+¿Que es investiagación reporoducible?
 ========================================================
 
 
-```r
-summary(cars)
-```
+- Código, datos (**Crudos**) y texto entrelazados
+- en R: Rmarkdown (Rmd) y Rpresentation (Rpres) entre otros
 
-```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-```
+![Peng](Reproducible.png)
 
-Slide With Plot
+
+Reproducibilidad en R
+========================================================
+
+![Rep](Rmark.png)
+
+***
+
+1. Una carpeta
+    + Datos crudos (csv, xls, html, json)
+    + Codigo y texto (Rmd, Rpres, shiny)
+    + Resultados (Manuscrito, Pagina Web, App)
+
+
+Ejemplo
 ========================================================
 
 ![plot of chunk unnamed-chunk-2](Clase1InvestigacionReproducible-figure/unnamed-chunk-2-1.png)

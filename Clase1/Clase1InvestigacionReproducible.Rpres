@@ -1,26 +1,45 @@
-Clase1InvestigacionReproducible
+<style>
+.small-code pre code {
+font-size: 1em;
+}
+</style>
+
+
+Clase1: Investigacion Reproducible
 ========================================================
 author: Derek Corcoran
-date: `r `
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 autosize: true
+transition: rotate
 
-First Slide
+
+¿Que es investiagación reporoducible?
 ========================================================
-
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
-========================================================
-
-```{r}
-summary(cars)
+```{r, message=FALSE, echo=FALSE, warning=FALSE}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(ggmap, ggplot2, dplyr, readr, leaflet, dygraphs, xts, lubridate, geojsonio)
 ```
 
-Slide With Plot
+- Código, datos (**Crudos**) y texto entrelazados
+- en R: Rmarkdown (Rmd) y Rpresentation (Rpres) entre otros
+
+![Peng](Reproducible.png)
+
+
+Reproducibilidad en R
+========================================================
+
+![Rep](Rmark.png)
+
+***
+
+1. Una carpeta
+    + Datos crudos (csv, xls, html, json)
+    + Codigo y texto (Rmd, Rpres, shiny)
+    + Resultados (Manuscrito, Pagina Web, App)
+
+
+Ejemplo
 ========================================================
 
 ```{r, echo=FALSE}

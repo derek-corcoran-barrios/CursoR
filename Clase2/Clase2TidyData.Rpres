@@ -1,0 +1,32 @@
+Clase2TidyData
+========================================================
+author: 
+date: 
+autosize: true
+
+First Slide
+========================================================
+
+For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+Slide With Code
+========================================================
+
+```{r}
+library(readr)
+library(ggplot2)
+classic_rock <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/classic-rock/classic-rock-song-list.csv")
+colnames(classic_rock)<- make.names(colnames(classic_rock))
+ggplot(classic_rock, aes(x = Release.Year)) + geom_histogram()  + xlim(c(1950, 2010))
+```
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
