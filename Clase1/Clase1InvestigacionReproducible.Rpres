@@ -57,10 +57,11 @@ Reproducibilidad en R
 Metas del día de hoy
 ========================================================
 
-- Un código en un chunk
-- Un inline code
-- Una tabla en el Rmarkdown
-- Entender que significan las metas de hoy
+1.  Un código en un chunk
+2.  Un inline code
+3.  Una tabla en el Rmarkdown
+4.  Primer commit en github
+5.  Entender que significan las metas de hoy
 
 Crear un nuevo Rmarkdown
 ========================================================
@@ -81,7 +82,7 @@ left: 30%
 
 ![NewRMD](RMDexample.png)
 
-Chunks
+Chunks (Meta 1)
 ========================================================
 
 ![Chunk](Chunk.png)
@@ -119,7 +120,7 @@ class: small-code
 [link](https://stackoverflow.com/users/3808018/derek-corcoran)
 ```
 
-Inline code
+Inline code (Meta 2)
 ========================================================
 
 ![Inline](Inline.png)
@@ -136,6 +137,20 @@ Pueden copiar el codigo de el siguiente [link](https://raw.githubusercontent.com
 - Otro [ejemplo](https://derek-corcoran.shinyapps.io/WhereShouldYouLive/)
 
 ![Terremotos](ExampleShown.png)
+
+Empezemos a trabajar!!!
+========================================================
+
+![Arrr](http://photos1.blogger.com/x/blogger/1599/2546/1600/667273/R-is-for-Pirate.jpg)
+
+Bases de datos con que trabajar
+========================================================
+
+- [Awesome public Datasets](https://github.com/caesar0301/awesome-public-datasets)
+- [Ropensci](https://ropensci.org/packages/#data_access) en base a paquetes de R
+- [cooldatasets](https://www.cooldatasets.com/)
+- [Datos de FiveThirtyEight](https://github.com/fivethirtyeight/data/tree/master/)
+
 
 Consejo reproducible 1
 ========================================================
@@ -159,8 +174,90 @@ pacman::p_load(ggplot2, dplyr, lubridate)
 Tablas: Kable y Stargazer
 ========================================================
 
-- kable parte de knitr
+- kable parte de knitr, tabla igual a lo ingresado 
 - [stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) mas avanzado, comparación de modelos
 - otras opciones como texreg
 
+Stargazer: Tablas resumen (Meta 3)
+========================================================
 
+- Chunk debe estar en results: "asis"
+- Si es para html la opción debe estar en type = "html"
+- Si es para pdf la opción debe estar en type = "latex"
+- Se puede exportar tabla
+
+```{r, results='asis', echo=TRUE}
+library(stargazer)
+stargazer(iris,type = "html")
+```
+
+Stargazer: Resumen de modelos economía combustible 1
+========================================================
+
+```{r, results='asis', echo=TRUE}
+data("mtcars")
+kable(head(mtcars))
+```
+
+Stargazer: Resumen de modelos economía combustible 2
+========================================================
+
+```{r, results='asis', echo=TRUE}
+M1 <- lm(mpg~wt, data = mtcars)
+M2 <- lm(mpg~hp, data = mtcars)
+M3 <- lm(mpg~hp + wt, data = mtcars)
+```
+
+========================================================
+class: small-code
+
+```{r, results='asis', echo=TRUE}
+stargazer(M1, M2, M3, type ="html", single.row=TRUE)
+```
+
+Armemos nuestras propias tablas!!!
+========================================================
+
+![Tabla](http://www.chemicalprocessing.com/assets/Media/0908/cartoon_0906.jpg)
+
+
+Github
+========================================================
+
+- Como "Google Drive" o "Dropbox" para código
+- Control de cambios (Podemos volver a cualquier versión anterior)
+- En base a codigo (idealmente), pero hay GUIs
+- Cada proyecto es un repositorio
+
+***
+![Git](https://www.cs.swarthmore.edu/~newhall/unixhelp/gitrepos.gif)
+
+Crear primer repositorio (Meta 4)
+========================================================
+
+- Crearse cuenta en githib.com
+- Crear repositorio en github
+- Con linea de comando llegar a la carpeta donde se tiene el proyecto
+- luego los siguientes Códigos
+- git init (Crea el repositorio local)
+- git add -A (Agrega todos los archivos al repo)
+- git commit -am "<Primer commit>" (Lo deja listo para subirlo a github)
+
+Crear primer repositorio (Meta 4)
+========================================================
+
+- git remote add origin "URL del repositorio remoto"
+- git remote -v
+- git push origin master
+
+De ahí en adelante
+========================================================
+
+- git add -A (a menos que tengas un archivo muuuy grande)
+- git commit -am "<mensaje a recordar>"
+- git push
+
+A guardar el repositorio
+========================================================
+
+![Repo](https://cdn.shopify.com/s/files/1/0051/4802/products/mainmap_1024x1024.jpg?v=1424989816)
