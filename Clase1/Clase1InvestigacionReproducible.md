@@ -51,6 +51,13 @@ Reproducibilidad en R
     + Codigo y texto (Rmd, Rpres, shiny)
     + Resultados (Manuscrito, Pagina Web, App)
 
+Metas del día de hoy
+========================================================
+
+- Un código en un chunk
+- Un inline code
+- Una tabla en el Rmarkdown
+- Entender que significan las metas de hoy
 
 Crear un nuevo Rmarkdown
 ========================================================
@@ -83,6 +90,7 @@ Chunks
 
 Texto
 ========================================================
+class: small-code
 
 # Titulo
 
@@ -145,3 +153,13 @@ Usar el paquete pacman (Package manager)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(ggplot2, dplyr, lubridate)
 ```
+
+
+Tablas: Kable y Stargazer
+========================================================
+
+- kable parte de knitr
+- [stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) mas avanzado, comparación de modelos
+- otras opciones como texreg
+
+
