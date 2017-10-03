@@ -1,6 +1,11 @@
-#BIO 4022. Análisis y manipulación de datos en R
+# BIO 4022. Análisis y manipulación de datos en R
 
-###En la carpeta  de cada clase se encuentra:
+### En el inicio se encuentra:
+
+- Read me file, explicación del contenido de este repositorio
+- El pdf con el temario y evaluación del curso
+
+### En la carpeta  de cada clase se encuentra:
 
 - el archivo Rpres y HTML correspondiente a cada clase 
-- Los datos utilizados para cada clase
+- Los datos, figuras o links utilizados para cada clase

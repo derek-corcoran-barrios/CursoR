@@ -1,17 +1,33 @@
 <style>
-.small-code pre code {
-font-size: 1em;
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
 }
 </style>
 
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
 
-Clase 1: Investigación Reproducible
+Clase 1: Investigación reproducible
 ========================================================
 author: Derek Corcoran
 date: "03/10, 2017"
 autosize: true
 transition: rotate
 
+Curso Análisis y manipulación de datos en R
+========================================================
+
+Primeros pasos
+
+- ¿Quien no ha usado nunca R? [Swirl](http://swirlstats.com/students.html)
+- Evaluación sencilla (Completar tareas + 1 evaluación)
+- Mucho trabajo personal guiado
+- Pagina donde esta [todo el curso](https://github.com/derek-corcoran-barrios/CursoR)
+- Consejo reproducible
 
 ¿Que es investiagación reporoducible?
 ========================================================
@@ -48,20 +64,84 @@ left: 30%
 1. Chunks
 2. Texto
 3. Inline code
-4. [Cheat cheat Rmd](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+4. [Cheat sheet Rmd](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+5. El botón mágico **Knit**
 
 ***
 
 ![NewRMD](RMDexample.png)
 
+Chunks
+========================================================
+
+![Chunk](Chunk.png)
+
++ *echo* = T o F muestro o no codigo
++ *message* = T o F muestra mensajes de paquetes
++ *warning* = T o F muestra advertencias 
++ hasta el infinito
+
+Texto
+========================================================
+
+# Titulo
+
+## subtitulo
+
+*cursiva*
+
+**negrita**
+
+[link](https://stackoverflow.com/users/3808018/derek-corcoran)
+
+***
+
+
+```r
+# Titulo
+
+## subtitulo
+
+*cursiva*
+
+**negrita**
+
+[link](https://stackoverflow.com/users/3808018/derek-corcoran)
+```
+
+Inline code
+========================================================
+
+![Inline](Inline.png)
+
+- Código entrelazado en el texto
+- Para actualizar medias, maximos, minimos
+- Valores de p, diferencias estadísticas
+
 Ejemplo
 ========================================================
 
+Pueden copiar el codigo de el siguiente [link](https://raw.githubusercontent.com/derek-corcoran-barrios/CursoR/master/Clase1/Sismos.Rmd), copiarlo en un archivo rmd, apretar knit y debieran ver algo como esto:
+
+- Otro [ejemplo](https://derek-corcoran.shinyapps.io/WhereShouldYouLive/)
+
+![Terremotos](ExampleShown.png)
+
+Consejo reproducible 1
+========================================================
+class: small-code
+
+Usar el paquete pacman (Package manager)
+
+- En R usar los mismos paquetes es clave para reproducibilidad
+- *p_load* cargar el paquete, si no esta instalarlo y luego cargarlo
+- El código de abajo busca el paquete pacman, si no esta lo instala
+- Luego usa *p_load* sobre los otros paquetes
+
+***
 
 
-
-
-Desde el 03-09-2017 al 03-10-2017, han habido 1. El sismo de mayor intensidad en ese tiempo sismos sobre magnitud 5.8 en Chile y sus cercanias en las localidades de 95km WSW of Illapel, Chile.
-
-
-![Sismos ocurridos en el mundo en los últimos 30 días con magnitud sobre 2.5 (Datos extraidos de USGS))](Clase1InvestigacionReproducible-figure/unnamed-chunk-4-1.png)
+```r
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(ggplot2, dplyr, lubridate)
+```
