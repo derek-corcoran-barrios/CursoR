@@ -1,7 +1,7 @@
 ---
 title: "Sismos"
 author: "Derek Corcoran"
-date: "October 2, 2017"
+date: "`r format(Sys.time(), '%d/%m, %Y')`"
 output: html_document
 ---
 
@@ -20,13 +20,16 @@ pacman::p_load(ggmap, ggplot2, dplyr, readr, leaflet, dygraphs, xts, lubridate, 
 Earthquakes <- read_csv("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.csv")
 saveRDS(Earthquakes, "Earthquakes.rds")
 Earthquakes <- readRDS("Earthquakes.rds")
-Chile <- as.data.frame(dplyr::filter(Earthquakes, latitude < -17 &  latitude >  -60 & longitude < -65 & longitude > -75))
-Last <- max(dplyr::filter(Chile, mag >= ifelse(max(Chile$mag) < 6,max(Chile$mag), 6))$time)
+#Chile <- as.data.frame(dplyr::filter(Earthquakes, latitude < -17 &  latitude >  -60 & longitude < -65 & longitude > -75))
+#Last <- max(dplyr::filter(Chile, mag >= ifelse(max(Chile$mag) < 6,max(Chile$mag), 6))$time)
+
+Mexico <- as.data.frame(dplyr::filter(Earthquakes, latitude < 32.7186 &  latitude >  14.5329 & longitude < -86.7034 & longitude > -118.8672))
+Last <- max(dplyr::filter(Mexico, mag >= ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6))$time)
 ```
 
-Desde el `r strftime(min(Earthquakes$time), format="%d-%m-%Y", usetz = FALSE)` al `r strftime(max(Earthquakes$time), format="%d-%m-%Y", usetz = FALSE)`, han habido `r NROW(dplyr::filter(Chile, mag >= ifelse(max(Chile$mag) < 6,max(Chile$mag), 6)))`. El sismo de mayor intensidad en ese tiempo sismos sobre magnitud `r ifelse(max(Chile$mag) < 6,max(Chile$mag), 6)` en Chile y sus cercanias en las localidades de `r dplyr::filter(Chile, mag >= ifelse(max(Chile$mag) < 6,max(Chile$mag), 6))$place`.
+Desde el `r strftime(min(Earthquakes$time), format="%d-%m-%Y", usetz = FALSE)` al `r strftime(max(Earthquakes$time), format="%d-%m-%Y", usetz = FALSE)`, han habido `r NROW(dplyr::filter(Mexico, mag >= ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6)))` sismos sobre intensidad `r ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6)` en Mexico y sus cercanias en las localidades de `r dplyr::filter(Mexico, mag >= ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6))$place`.
 
-El temblor sobre grado `r ifelse(max(Chile$mag) < 6,max(Chile$mag), 6)`, mas reciente ocurrio en `r strftime(max(dplyr::filter(Chile, mag >= ifelse(max(Chile$mag) < 6,max(Chile$mag), 6))$time), format="%d-%m-%Y", usetz = FALSE)`, y desde esa fecha han ocurrido un total de `r nrow(dplyr::filter(Chile, time >= Last))` sismos. 
+El temblor sobre grado `r ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6)`, mas reciente ocurrio en `r strftime(max(dplyr::filter(Mexico, mag >= ifelse(max(Mexico$mag) < 6,max(Mexico$mag), 6))$time), format="%d-%m-%Y", usetz = FALSE)`, y desde esa fecha han ocurrido un total de `r nrow(dplyr::filter(Mexico, time >= Last))` sismos. 
 
 En el siguiente mapa interactivo, se ven todos los temblores del último año, en este se encuentran en rojo, todos los temblores con una magnitud sobre 6 en la escala de richter y en azul bajo 6. Si te posas sobre cada circulo te mostrará la magnitud de este temblor, y si haces click sobre un circulo, aparecerá el día y hora en que este temblor ocurrio.
 
@@ -36,7 +39,7 @@ plaques <- geojsonio::geojson_read("https://raw.githubusercontent.com/fraxen/tec
 MAG <- as.numeric(Earthquakes$mag)^1.3
 pal <- colorFactor(c("navy", "red"), domain = c("> 6", "< 6"))
 QK <- ifelse(Earthquakes$mag >= 6, "> 6", "< 6")
-leaflet(data = Earthquakes) %>% addTiles() %>% addPolylines(data = plaques)%>% setView(-71.0382679, -36, zoom = 4) %>%
+leaflet(data = Earthquakes) %>% addProviderTiles("OpenTopoMap") %>% addPolylines(data = plaques)%>% setView(-99, 19, zoom = 4) %>%
     addCircleMarkers(~longitude, ~latitude, popup = ~as.character(time), label = ~as.character(mag), fillOpacity = 0.5, radius = MAG, color = ~pal(QK))  
 #%>%  addLegend(position= "topright", pal = pal, values= ~QK, title = "Magnitud")
 ```
