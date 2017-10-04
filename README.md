@@ -9,3 +9,7 @@
 
 - el archivo Rpres y HTML correspondiente a cada clase 
 - Los datos, figuras o links utilizados para cada clase
+
+# Links a las Clases en html
+
+- [Clase 1](http://rpubs.com/derek_corcoran/Clase1)
