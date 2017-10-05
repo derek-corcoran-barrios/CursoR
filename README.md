@@ -12,4 +12,7 @@
 
 # Links a las Clases en html
 
+- Antes de empezar, si no has utilizado R anteriormente por favor revisa este 
+  [Video](https://youtu.be/w6L7Ye18yPE) y realiza las primeras 7 lecciones de 
+  *R Programming* en Swirl
 - [Clase 1](http://rpubs.com/derek_corcoran/Clase1)
