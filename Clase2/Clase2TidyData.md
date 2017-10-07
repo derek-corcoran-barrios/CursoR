@@ -1,35 +1,72 @@
-Clase2TidyData
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+</style>
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
+Clase2 Tidy Data y manipulación de datos
 ========================================================
-author: 
-date: 
+author: Derek Corcoran
+date: "07/10, 2017"
 autosize: true
+transition: rotate
 
-First Slide
+Estructura de datos
+========================================================
+incremental: true
+
+- Vector: Un conjunto lineal de datos (Secuencia genica, serie de tiempo)
+- Matrix: Una tabla con solo números
+- Data Frame: Una tabla donde cada columna tiene un tipo de datos (Estandard dorado)
+- List: Aqui podemos meter lo que queramos
+
+***
+
+![data](Data.png)
+
+Vector
 ========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
+Data Frame
 ========================================================
+
+
+
+****
+
+dplyr
+========================================================
+incremental: true
+ 
+Paquete con pocas funciones muy poderosas
+
+- Filter
+- Group_by
+- Summarise
+- Select
+- Join
+
+Filter
+=================
 
 
 ```r
-summary(cars)
+library(readr)
+library(ggplot2)
+classic_rock <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/classic-rock/classic-rock-song-list.csv")
+colnames(classic_rock)<- make.names(colnames(classic_rock))
+ggplot(classic_rock, aes(x = Release.Year)) + geom_histogram()  + xlim(c(1950, 2010))
 ```
 
-```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-```
+![plot of chunk unnamed-chunk-1](Clase2TidyData-figure/unnamed-chunk-1-1.png)
 
 Slide With Plot
 ========================================================

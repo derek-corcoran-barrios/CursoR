@@ -1,20 +1,61 @@
-Clase2TidyData
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+</style>
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
+Clase2 Tidy Data y manipulación de datos
 ========================================================
-author: 
-date: 
+author: Derek Corcoran
+date: "`r format(Sys.time(), '%d/%m, %Y')`"
 autosize: true
+transition: rotate
 
-First Slide
+Estructura de datos
+========================================================
+incremental: true
+
+- Vector: Un conjunto lineal de datos (Secuencia genica, serie de tiempo)
+- Matrix: Una tabla con solo números
+- Data Frame: Una tabla donde cada columna tiene un tipo de datos (Estandard dorado)
+- List: Aqui podemos meter lo que queramos
+
+***
+
+![data](Data.png)
+
+Vector
 ========================================================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
+Data Frame
 ========================================================
+
+
+
+****
+
+dplyr
+========================================================
+incremental: true
+ 
+Paquete con pocas funciones muy poderosas
+
+- Filter
+- Group_by
+- Summarise
+- Select
+- Join
+
+Filter
+=================
 
 ```{r}
 library(readr)
