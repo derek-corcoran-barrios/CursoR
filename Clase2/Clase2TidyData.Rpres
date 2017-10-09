@@ -86,20 +86,21 @@ prueba de la limpieza
 ==============
 class: small-code
 
-* Graficando usando ggplot2
-* Seleccionar variable x e y, 
-* graficar (geom_boxplot para categorias, geom_point para numerico)
+* Generando modelos lineales usando lm/glm
+* Formato lm(y ~ x1 + x2 + ... + xn, data = Data.frame)
 ```{r, eval=FALSE}
 data(iris)
-library(ggplot2)
-ggplot(iris, aes(x = Species, y = Petal.Length)) + geom_boxplot()
+model1 <- lm(Petal.Length ~ Species, data = iris)
+library(stargazer)
+stargazer(model1, type = "html", single.row=TRUE)
 ```
 
 ***
-```{r, echo=FALSE}
+```{r, echo=FALSE, results="asis"}
 data(iris)
-library(ggplot2)
-ggplot(iris, aes(x = Species, y = Petal.Length)) + geom_boxplot()
+model1 <- lm(Petal.Length ~ Species, data = iris)
+library(stargazer)
+stargazer(model1, type = "html", single.row=TRUE)
 ```
 
 
@@ -107,16 +108,101 @@ dplyr
 ========================================================
 incremental: true
  
-Paquete con pocas funciones muy poderosas
+Paquete con pocas funciones [muy poderosas](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
-- Filter
-- Group_by
-- Summarise
-- Select
-- Join
+- *summarize*
+- *group_by*
+- *filter* 
+- *select* junto a *starts_with* o *ends_with*
+- *join*
+- *%>%* pipeline
+
+summarize y group_by
+=================
+- *summarize *resume una variable
+- *Group_by* reune observaciones segun una variable
+- Usadas en conjunto muy poderosas
+
+```{r}
+library(dplyr)
+library(knitr)
+MEAN <- summarize(iris, MEAN.PETAL = mean(Petal.Length))
+kable(MEAN)
+```
+
+summarize y group_by (continuado)
+=================
+
+```{r}
+library(dplyr)
+library(knitr)
+MEAN <- group_by(iris, Species)
+MEAN <- summarize(MEAN, MEAN.PETAL = mean(Petal.Length))
+kable(MEAN)
+```
+
+Pipeline (%>%)
+=================
+class: small-code
+
+- Ahorra lineas, se parte con un data.frame
+- Se agregan funciones de dplyr hasta llegar al resultado deseado
+
+```{r}
+library(dplyr)
+library(knitr)
+MEAN <- iris %>% group_by(Species) %>% summarize(MEAN.PETAL = mean(Petal.Length))
+kable(MEAN)
+```
+
+Pipeline (%>%) otro ejemplo
+==========================
+
+```{r}
+library(dplyr)
+library(knitr)
+MEAN <- iris %>% group_by(Species) %>% summarize_all(mean)
+kable(MEAN)
+```
 
 Filter
-=================
+=======
+incremental:true
+- Selecciona segun una o más variables
+```{r, echo=FALSE}
+DF <- data.frame(simbolo = c("<", ">", "==", ">=", "<="), significado = c("Mayor que", "Menor que", "Igual a", "mayor o igual a", "menor o igual a"), simbolo_cont = c("!=","%in%", "is.na", "!is.na", "| &"), significado_cont = c("distinto a", "dentro del grupo", "es NA", "no es NA", "o, y"))
+kable (DF)
+```
+
+Ejemplos de filter agregando a lo anterior
+===============================
+class: small-code
+
+```{r}
+library(dplyr)
+data("iris")
+DF <- iris %>% filter(Species != "versicolor") %>% group_by(Species) %>% summarise_all(mean)
+kable(DF)
+```
+
+
+Select
+=======================
+class: small-code
+
+* Selecciona columnas dentro de un data.frame
+
+```{r}
+library(dplyr)
+library(knitr)
+data(nasa)
+Nasa2 <- as.data.frame(nasa)
+Temp <- Nasa2 %>% filter(year != 1995) %>% group_by(year) %>% select(contains("temp")) %>% summarize_all(mean)
+```
+***
+```{r}
+kable(Temp)
+```
 
 ```{r}
 library(readr)
@@ -132,3 +218,4 @@ Slide With Plot
 ```{r, echo=FALSE}
 Prop <- iris %>% mutate(petal.proportion = Petal.Length / Petal.Width) %>% group_by (Species) %>% summarise (Mean.Proportion = mean(petal.proportion))
 ```
+
