@@ -11,7 +11,7 @@
 }
 </style>
 
-Clase2 Tidy Data y manipulación de datos
+Clase 2 Tidy Data y manipulación de datos
 ========================================================
 author: Derek Corcoran
 date: "`r format(Sys.time(), '%d/%m, %Y')`"
@@ -33,14 +33,75 @@ incremental: true
 
 Vector
 ========================================================
+left: 60%
+incremental: true
+
+* Secuencia lineal de datos
+* Pueden ser de muchos tipos (numéricos, de carácteres, logicos, etc.)
+* Ejemplo data(uspop)
+* para crear uno c(1,4,6,7,8)
+* para Subsetear un vector se pone el indice entre []
+* uspop[4], uspop[2:10], uspop[c(3,5,8)]
+
+***
+
+![Vector](Vector.jpg)
 
 
 Data Frame
 ========================================================
+incremental: true
+* Una tabla, cada columna un tipo de datos (Numérico, lógico, etc)
+* Cada columna un vector
+* Ejemplo data(iris)
+* Para subsetear data.frame[filas,columnas]
+* Ejemplos iris[,3], iris[,"Petal.Length"], iris[2:5,c(1,5)]
 
 
 
-****
+***
+
+![DataFrame](DataFrame.jpg)
+
+Tidy Data 
+========================================================
+incremental: true
+![Tidy](tidy.png)
+
+* Cada columna una variable
+* Cada fila una observación
+
+untidy data
+===========
+```{r, echo=FALSE, message = FALSE, warning = FALSE,fig.width=8,fig.height=4.5,dpi=300,out.width="960px",out.height="700px"}
+library(knitr)
+include_graphics("UntidyONU.png")
+```
+
+untidy data
+===========
+![unTidy](untidy.jpg)
+
+prueba de la limpieza
+==============
+class: small-code
+
+* Graficando usando ggplot2
+* Seleccionar variable x e y, 
+* graficar (geom_boxplot para categorias, geom_point para numerico)
+```{r, eval=FALSE}
+data(iris)
+library(ggplot2)
+ggplot(iris, aes(x = Species, y = Petal.Length)) + geom_boxplot()
+```
+
+***
+```{r, echo=FALSE}
+data(iris)
+library(ggplot2)
+ggplot(iris, aes(x = Species, y = Petal.Length)) + geom_boxplot()
+```
+
 
 dplyr
 ========================================================
@@ -69,5 +130,5 @@ Slide With Plot
 ========================================================
 
 ```{r, echo=FALSE}
-plot(cars)
+Prop <- iris %>% mutate(petal.proportion = Petal.Length / Petal.Width) %>% group_by (Species) %>% summarise (Mean.Proportion = mean(petal.proportion))
 ```

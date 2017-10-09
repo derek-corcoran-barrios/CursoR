@@ -29,7 +29,7 @@ Primeros pasos
 - Pagina donde esta [todo el curso](https://github.com/derek-corcoran-barrios/CursoR)
 - Consejo reproducible
 
-¿Que es investiagación reporoducible?
+¿Que es investigación reproducible?
 ========================================================
 ```{r, message=FALSE, echo=FALSE, warning=FALSE}
 if (!require("pacman")) install.packages("pacman")
