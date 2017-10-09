@@ -120,7 +120,6 @@ Paquete con pocas funciones [muy poderosas](https://www.rstudio.com/wp-content/u
 - *group_by*
 - *filter* 
 - *select* junto a *starts_with* o *ends_with*
-- *join*
 - *%>%* pipeline
 
 summarize y group_by
@@ -269,18 +268,14 @@ kable(Temp)
 | 2000| 295.7263|    298.3358|
 
 
-```r
-library(readr)
-library(ggplot2)
-classic_rock <- read_csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/classic-rock/classic-rock-song-list.csv")
-colnames(classic_rock)<- make.names(colnames(classic_rock))
-ggplot(classic_rock, aes(x = Release.Year)) + geom_histogram()  + xlim(c(1950, 2010))
-```
 
-![plot of chunk unnamed-chunk-12](Clase2TidyData-figure/unnamed-chunk-12-1.png)
-
-Slide With Plot
+Ejercicios
 ========================================================
+incremental: true
+
+* Usando la base de datos *storm* del paquete *dplyr*, calcula la velocidad promedio y diametro promedio (hu_diameter) de las tormentas declaradas huracanes por año
+    + solucion:
+    + storms %>% filter(status == "hurricane") %>% select(year, wind, hu_diameter) %>% group_by(year) %>% summarize_all(mean)
 
 
 
