@@ -16,3 +16,4 @@
   [Video](https://youtu.be/w6L7Ye18yPE) y realiza las primeras 7 lecciones de 
   *R Programming* en Swirl
 - [Clase 1](http://rpubs.com/derek_corcoran/Clase1)
+- [Clase 2](http://rpubs.com/derek_corcoran/Clase2)

@@ -22,9 +22,9 @@ Estructura de datos
 ========================================================
 incremental: true
 
-- Vector: Un conjunto lineal de datos (Secuencia genica, serie de tiempo)
+- Vector: Un conjunto lineal de datos (secuencia génica, serie de tiempo)
 - Matrix: Una tabla con solo números
-- Data Frame: Una tabla donde cada columna tiene un tipo de datos (Estandard dorado)
+- Data Frame: Una tabla donde cada columna tiene un tipo de datos (estándar dorado)
 - List: Aqui podemos meter lo que queramos
 
 ***
@@ -37,10 +37,10 @@ left: 60%
 incremental: true
 
 * Secuencia lineal de datos
-* Pueden ser de muchos tipos (numéricos, de carácteres, logicos, etc.)
+* Pueden ser de muchos tipos (numéricos, de carácteres, lógicos, etc.)
 * Ejemplo data(uspop)
 * para crear uno c(1,4,6,7,8)
-* para Subsetear un vector se pone el indice entre []
+* para subsetear un vector se pone el índice entre []
 * uspop[4], uspop[2:10], uspop[c(3,5,8)]
 
 ***
@@ -55,7 +55,7 @@ incremental: true
 * Cada columna un vector
 * Ejemplo data(iris)
 * Para subsetear data.frame[filas,columnas]
-* Ejemplos iris[,3], iris[,"Petal.Length"], iris[2:5,c(1,5)]
+* Ejemplos iris[,3], iris[,"Petal.Length"], iris[2:5,c(1,5)], iris$Petal.Length
 
 
 
@@ -81,6 +81,26 @@ include_graphics("UntidyONU.png")
 untidy data
 ===========
 ![unTidy](untidy.jpg)
+
+Un tipo especial de untidy data
+===========
+class: small-code
+
+* Tablas de contingencia
+* Ejemplo data(HairEyeColor)
+* como limpiarlo paquete *epitools* función *expand.table*
+
+```{r}
+data("HairEyeColor")
+HairEyeColor[,,1]
+```
+***
+```{r}
+library(epitools)
+library(knitr)
+H <- expand.table(HairEyeColor)
+kable(head(H))
+```
 
 prueba de la limpieza
 ==============
@@ -118,8 +138,8 @@ Paquete con pocas funciones [muy poderosas](https://www.rstudio.com/wp-content/u
 
 summarize y group_by
 =================
-- *summarize *resume una variable
-- *Group_by* reune observaciones segun una variable
+- *summarize* resume una variable
+- *Group_by* reune observaciones según una variable
 - Usadas en conjunto muy poderosas
 
 ```{r}
@@ -144,7 +164,7 @@ Pipeline (%>%)
 =================
 class: small-code
 
-- Ahorra lineas, se parte con un data.frame
+- Ahorra líneas, se parte con un data.frame
 - Se agregan funciones de dplyr hasta llegar al resultado deseado
 
 ```{r}
@@ -167,7 +187,7 @@ kable(MEAN)
 Filter
 =======
 incremental:true
-- Selecciona segun una o más variables
+- Selecciona según una o más variables
 ```{r, echo=FALSE}
 DF <- data.frame(simbolo = c("<", ">", "==", ">=", "<="), significado = c("Mayor que", "Menor que", "Igual a", "mayor o igual a", "menor o igual a"), simbolo_cont = c("!=","%in%", "is.na", "!is.na", "| &"), significado_cont = c("distinto a", "dentro del grupo", "es NA", "no es NA", "o, y"))
 kable (DF)
@@ -215,11 +235,37 @@ Ejercicios
 ========================================================
 incremental: true
 
-* Usando la base de datos *storm* del paquete *dplyr*, calcula la velocidad promedio y diametro promedio (hu_diameter) de las tormentas declaradas huracanes por año
-    + solucion:
+* Usando la base de datos *storm* del paquete *dplyr*, calcula la velocidad promedio y diámetro promedio (hu_diameter) de las tormentas declaradas huracanes por año
+    + solución:
     + storms %>% filter(status == "hurricane") %>% select(year, wind, hu_diameter) %>% group_by(year) %>% summarize_all(mean)
+* Usando la base de datos *iris* crea un inline code que diga cuál es la media del largo del pétalo de la especie *Iris virginica*
+    + solución:
+    + la media para I. virginica es `r mean((iris %>% filter(Species == "virginica"))$Petal.Length)`
 
-```{r, echo=FALSE}
-Prop <- iris %>% mutate(petal.proportion = Petal.Length / Petal.Width) %>% group_by (Species) %>% summarise (Mean.Proportion = mean(petal.proportion))
+Ejercicios 2
+==================================
+incremental: true
+
+* Crear dos modelos lineales para la base de datos *mtcars* uno para autos de cambios automáticos y uno para autos de cambios manuales basados en el peso del automóvil
+    + Manuales <- filter(mtcars, am == 1)
+    + Auto <- filter(mtcars, am == 0)
+    + ManualLM <- lm(mpg ~ wt, data = Manuales)
+    + AutoLM <- lm(mpg ~ wt, data = Auto)
+
+Resultado
+===========
+class: small-code
+
+```{r, results = "asis"}
+library(stargazer)
+Manuales <- filter(mtcars, am == 1)
+Auto <- filter(mtcars, am == 0)
+ManualLM <- lm(mpg ~ wt, data = Manuales)
+AutoLM <- lm(mpg ~ wt, data = Auto)
+stargazer(ManualLM, AutoLM, type = "html", single.row=TRUE)
 ```
 
+Meta del día de hoy
+===================
+
+Piensen en una pregunta a resolver con sus datos
