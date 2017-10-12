@@ -17,3 +17,4 @@
   *R Programming* en Swirl
 - [Clase 1](http://rpubs.com/derek_corcoran/Clase1)
 - [Clase 2](http://rpubs.com/derek_corcoran/Clase2). También puedes ver el [video](https://youtu.be/Ft6r7pD_eSs) de la clase.
+- [Clase 3](http://rpubs.com/derek_corcoran/Clase3)
