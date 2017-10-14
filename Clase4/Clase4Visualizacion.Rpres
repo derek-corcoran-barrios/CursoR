@@ -96,9 +96,9 @@ fill
 class: small-code
 
 ```{r}
-library(ggplot2)
-data("diamonds")
-ggplot(diamonds, aes(x = cut, y=price)) + geom_boxplot(aes(fill = clarity)) + theme_classic()
+library(dplyr)
+d2 <- diamonds %>% filter(clarity == "I1" | clarity == "IF")
+ggplot(d2, aes(x = cut, y=price)) + geom_boxplot(aes(fill = clarity)) + theme_classic()
 ```
 
 Una variable categórica una continua
@@ -154,3 +154,121 @@ Dos variables continuas
 * geom_line
 * geom_hex
 * geom_rug
+
+geom_hex
+========================
+```{r}
+ggplot(diamonds, aes(carat, price)) + geom_hex()
+```
+
+geom_point y geom_smooth
+================
+class: small-code
+
+```{r}
+data("mtcars")
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_smooth() + geom_point()
+```
+
+geom_smooth, method
+================
+class: small-code
+
+```{r}
+data("mtcars")
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_smooth(method = "lm") + geom_point()
+```
+
+stat_smooth mas control que geom_smooth
+========================================
+class: small-code
+
+```{r}
+library(dplyr)
+library(knitr)
+TempHum <- readRDS("TempHum.rds")
+PA <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas")
+kable(PA)
+```
+
+stat_smooth mas control que geom_smooth
+========================================
+class: small-code
+
+```{r}
+library(ggplot2)
+ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point()
+```
+
+stat_smooth mas control que geom_smooth
+========================================
+class: small-code
+
+```{r}
+ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm") 
+```
+
+Ecuación cuadrática
+========================================
+class: small-code
+```{r, echo=FALSE}
+library(knitr)
+include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Ecuaci%C3%B3n_cuadr%C3%A1tica.svg/250px-Ecuaci%C3%B3n_cuadr%C3%A1tica.svg.png")
+```
+
+***
+
+```{r, echo=FALSE}
+library(knitr)
+include_graphics("https://i.pinimg.com/originals/6e/91/cc/6e91ccb58f1eb088b6f6134265a05ed0.png")
+```
+
+stat_smooth mas control que geom_smooth
+========================================
+class: small-code
+
+```{r}
+ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) 
+```
+
+Que podemos hacer con tidyr??
+========================================
+class: small-code
+
+```{r}
+library(tidyr)
+San <- TempHum %>% filter(Ciudad_localidad == "Quinta Normal")
+SATH <- gather(San, key = Unidad, value = medida, TempMedia, HumMedia)
+ggplot(SATH, aes(x = mes, y = medida)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2), aes(fill = Unidad, color = Unidad)) 
+```
+
+incluirlo en rmd con leyenda abajo
+========================================
+class: small-code
+
+```{r, echo=FALSE}
+include_graphics("/home/derek/Documents/CursoR/Clase4/YAML.png")
+```
+
+
+```{r, echo=FALSE}
+include_graphics("/home/derek/Documents/CursoR/Clase4/Chunk.png")
+```
+
+Primera evaluación
+========================================
+incremental:true
+
+* Generar un rmd
+* Debe tener
+    + Al menos un chunk
+    + Al menos un inline code
+    + Al menos una tabla con leyenda (kable, stargazer)
+    + Al menos una figura (con leyenda)
+
+***
+
+* Enviar por correo con subject evaluación 1 R
+    + El link de rpubs con el documento publicado
+    + El archivo rmd con el que generaron el documento
+    + Para el viernes 20 de Octubre
