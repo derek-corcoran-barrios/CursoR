@@ -78,27 +78,3 @@ TempHum <- full_join(TempMedia, HumMedia)
 saveRDS(TempHum, "TempHum.rds")
 
 TempHum <- readRDS("TempHum.rds")
-
-PA <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas")
-
-PAySan <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas" | Ciudad_localidad == "Quinta Normal")
-
-
-library(ggplot2)
-ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point()
-ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point() + geom_smooth()
-ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) 
-
-library(tidyr)
-
-San <- TempHum %>% filter(Ciudad_localidad == "Quinta Normal")
-
-SATH <- gather(San, key = Unidad, value = medida, TempMedia, HumMedia)
-
-ggplot(SATH, aes(x = mes, y = medida)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2), aes(fill = Unidad, color = Unidad)) 
-
-PAySan <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas" | Ciudad_localidad == "Quinta Normal")
-ggplot(PAySan, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2), aes(fill = Ciudad_localidad, color = Ciudad_localidad)) 
-
-
-ggplot(PAySan, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + facet_grid(Ciudad_localidad ~ .)

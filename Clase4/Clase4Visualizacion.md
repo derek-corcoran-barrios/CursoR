@@ -14,7 +14,7 @@
 Clase 4 visualización de datos
 ========================================================
 author: Derek Corcoran
-date: "13/10, 2017"
+date: "15/10, 2017"
 autosize: true
 transition: rotate
 
@@ -22,11 +22,12 @@ ggplot2
 ========================================================
 class: small-code
 
-* Paquete de visualización de datos de tidy data
+* <small>Paquete de visualización de datos de tidy data.</small>
 * ggplot(data.frame, aes(nombres de columna))
 * + geom_algo(argumentos, aes(columnas))
 * + theme_algo() estilo
 * Personalización de ejes y leyendas
+* Dos [links](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/) para aprender [mas](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 
 ```r
@@ -732,4 +733,4 @@ incremental:true
 * Enviar por correo con subject evaluación 1 R
     + El link de rpubs con el documento publicado
     + El archivo rmd con el que generaron el documento
-    + Para el viernes 20 de Octubre
+    + Para el martes 24 de Octubre
