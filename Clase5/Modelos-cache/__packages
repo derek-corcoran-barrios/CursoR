@@ -1,0 +1,8 @@
+base
+knitr
+MuMIn
+kableExtra
+epitools
+ggplot2
+dplyr
+bindrcpp

@@ -1,0 +1,172 @@
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+</style>
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
+Clase 5 Modelos y loops
+========================================================
+author: Derek Corcoran
+date: "`r format(Sys.time(), '%d/%m, %Y')`"
+autosize: true
+transition: rotate
+
+paquetes a usar en esta clase
+========================
+
+<STYLE TYPE="text/css">
+<!--
+  td{
+    font-family: Arial; 
+    font-size: 4pt;
+    padding:0px;
+    cellpadding="0";
+    cellspacing="0"
+  }
+  th {
+    font-family: Arial; 
+    font-size: 4pt;
+    height: 20px;
+    font-weight: bold;
+    text-align: right;
+    background-color: #ccccff;
+  }
+  table { 
+    border-spacing: 0px;
+    border-collapse: collapse;
+  }
+--->
+</STYLE>
+
+incremental:true
+
+* sjPlot
+* caret
+* MuMIn
+* Purrr
+
+Modelo lineal simple
+========================================================
+class: small-code
+```{r, eval =FALSE}
+library(dplyr)
+TempHum <- readRDS("TempHum.rds")
+Pun <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas")
+Lineal <- lm(TempMedia ~ mes, data = TempHum)
+Cuad <- lm(TempMedia ~ mes + I(mes^2), data = TempHum)
+stargazer::stargazer(Lineal, Cuad, type = "html",  single.row = TRUE, model.names = TRUE, model.numbers = FALSE)
+```
+
+***
+```{r, results="asis", echo =FALSE}
+library(dplyr)
+TempHum <- readRDS("TempHum.rds")
+Pun <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas")
+Lineal <- lm(TempMedia ~ mes, data = TempHum)
+Cuad <- lm(TempMedia ~ mes + I(mes^2), data = TempHum)
+stargazer::stargazer(Lineal, Cuad, type = "html",  single.row = TRUE)
+```
+
+Modelo lineal generalizado
+========================================================
+incremental:true
+* Se agrega el argumento **family =**
+* gaussian (variable independiente continua)
+* binomial (variable independiente 0 o 1)
+* poissson (variable independiente cuentas 1, 2 ,3 ,4 ,5)
+* gamma (variable independiente continua solo positiva)
+
+Selección de modelos
+=======================
+class: small-code
+incremental:true
+
+```{r}
+data("mtcars")
+Eficiencia <- glm(mpg ~. , data = mtcars)
+```
+* Se parte del modelo general (Muchos predictores)
+* Paquete MuMIn calcula AICc (o AIC o BIC) para cada modelo
+* Se ordena desde el menor IC al mayor IC
+* En general reportamos un delta AIC de 2
+
+Selección de modelos
+=======================
+class: small-code
+```{r, cache = TRUE}
+library(MuMIn)
+library(kableExtra)
+library(knitr)
+options(na.action = "na.fail")
+Select <- dredge(Eficiencia)
+Select <-subset(Select, delta <= 2)
+Select <-as.data.frame(Select)
+Select <- Select[,colSums(is.na(Select))<nrow(Select)]
+kable(Select, digits = 2)
+```
+
+Modelo lineal generalizado (familia: binomial)
+========================================================
+class: small-code
+
+```{r, results= "asis"}
+data("Titanic")
+library(epitools)
+Titanic2 <- expand.table(Titanic)
+knitr::kable(head(Titanic2))
+```
+
+Modelo lineal generalizado (familia: binomial)
+========================================================
+class: small-code
+
+```{r}
+Titanic2$Survived <- ifelse(Titanic2$Survived == "Yes", 1, 0)
+library(ggplot2)
+ggplot(Titanic2, aes(x = Class, y = Survived)) + geom_violin(aes(fill = Sex)) 
+```
+
+Modelo lineal generalizado (familia: binomial)
+========================================================
+class: small-code
+```{r, results="asis", cache = TRUE}
+ModeloTitanic <- glm(Survived ~.,family=binomial() ,data = Titanic2)
+stargazer::stargazer(ModeloTitanic, type = "html",  single.row = TRUE)
+```
+
+Modelo lineal generalizado (familia: binomial)
+========================================================
+class: small-code
+```{r}
+library(MuMIn)
+options(na.action = "na.fail")
+select <- dredge(ModeloTitanic)
+select <-subset(select, delta <= 20)
+knitr::kable(select)
+```
+
+Visualizando modelos (Paquete sjPlot)
+========================================================
+
+
+Expandiendo los modelos que puedo usar paquete caret
+===========================================
+
+
+función train
+===================
+
+
+loops
+=============
+
+
+tidy loops con purrr
+====================
