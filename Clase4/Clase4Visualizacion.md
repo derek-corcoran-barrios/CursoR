@@ -23,17 +23,17 @@ ggplot2
 class: small-code
 
 * <small>Paquete de visualización de datos de tidy data.</small>
-* ggplot(data.frame, aes(nombres de columna))
-* + geom_algo(argumentos, aes(columnas))
-* + theme_algo() estilo
-* Personalización de ejes y leyendas
-* Dos [links](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/) para aprender [mas](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+* <small>ggplot(data.frame, aes(nombres de columna)).</small>
+* <small>+ geom_algo(argumentos, aes(columnas)).</small>
+* <small>+ theme_algo() estilo.</small>
+* <small>Personalización de ejes y leyendas.</small>
+* <small>Dos [links](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/) para aprender [mas](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf).</small>
 
 
 ```r
 library(ggplot2)
 data("diamonds")
-ggplot(diamonds, aes(x = carat, y=price)) + geom_point(aes(color = cut))
+ggplot(diamonds, aes(x = carat, y=price)) + geom_point(aes(color = cut)) + theme_classic()
 ```
 
 ***
@@ -43,11 +43,11 @@ ggplot(diamonds, aes(x = carat, y=price)) + geom_point(aes(color = cut))
 Argumentos para geoms
 =================
 
-* **color**: color de lineas o puntos 
-* **alpha**: transparencia, de 0 (transparente) a 1 (solido)
+* **color**: color de líneas o puntos 
+* **alpha**: transparencia, de 0 (transparente) a 1 (sólido)
 * **size**: tamaño de puntos
-* **pch**: tipo de punto
-* **fill**: color dentro de un area (barras, intervalos)
+* **pch**: típo de punto
+* **fill**: color dentro de un área (barras, intervalos)
 
 color
 =================
@@ -213,7 +213,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) + geom_smooth(method = "lm") + geom_point()
 
 ![plot of chunk unnamed-chunk-14](Clase4Visualizacion-figure/unnamed-chunk-14-1.png)
 
-stat_smooth mas control que geom_smooth
+stat_smooth más control que geom_smooth
 ========================================
 class: small-code
 
@@ -651,7 +651,7 @@ kable(PA)
 |2015-11-01 | 2015|  11|       8.2|Punta Arenas     |     60.7|
 |2015-12-01 | 2015|  12|       9.2|Punta Arenas     |     59.5|
 
-stat_smooth mas control que geom_smooth
+stat_smooth más control que geom_smooth
 ========================================
 class: small-code
 
@@ -663,7 +663,7 @@ ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point()
 
 ![plot of chunk unnamed-chunk-16](Clase4Visualizacion-figure/unnamed-chunk-16-1.png)
 
-stat_smooth mas control que geom_smooth
+stat_smooth más control que geom_smooth
 ========================================
 class: small-code
 
@@ -677,13 +677,13 @@ ggplot(PA, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "
 Ecuación cuadrática
 ========================================
 class: small-code
-![plot of chunk unnamed-chunk-18](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Ecuaci%C3%B3n_cuadr%C3%A1tica.svg/250px-Ecuaci%C3%B3n_cuadr%C3%A1tica.svg.png)
+![plot of chunk unnamed-chunk-18](Cuadratica.png)
 
 ***
 
-![plot of chunk unnamed-chunk-19](https://i.pinimg.com/originals/6e/91/cc/6e91ccb58f1eb088b6f6134265a05ed0.png)
+![plot of chunk unnamed-chunk-19](Lineal.png)
 
-stat_smooth mas control que geom_smooth
+stat_smooth más control que geom_smooth
 ========================================
 class: small-code
 
@@ -712,10 +712,10 @@ incluirlo en rmd con leyenda abajo
 ========================================
 class: small-code
 
-![plot of chunk unnamed-chunk-22](/home/derek/Documents/CursoR/Clase4/YAML.png)
+![plot of chunk unnamed-chunk-22](YAML.png)
 
 
-![plot of chunk unnamed-chunk-23](/home/derek/Documents/CursoR/Clase4/Chunk.png)
+![plot of chunk unnamed-chunk-23](Chunk.png)
 
 Primera evaluación
 ========================================
@@ -734,3 +734,82 @@ incremental:true
     + El link de rpubs con el documento publicado
     + El archivo rmd con el que generaron el documento
     + Para el martes 24 de Octubre
+
+Como combinar gráficos
+======================================
+class: small-code
+
+
+```r
+Ari <- TempHum %>% filter(Ciudad_localidad == "Arica")
+Ari  <- ggplot(Ari , aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Arica")
+Jua <- TempHum %>% filter(Ciudad_localidad == "Isla Juan Fernández")
+Jua  <- ggplot(Jua , aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Juan Fernandez")
+San <- TempHum %>% filter(Ciudad_localidad == "Quinta Normal")
+San <- ggplot(San, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Santiago")
+Con <- TempHum %>% filter(Ciudad_localidad == "Concepción")
+Con <- ggplot(Con, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Concepcion")
+Pun <- TempHum %>% filter(Ciudad_localidad == "Punta Arenas")
+Pun <- ggplot(Pun, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Punta Arenas")
+Ant <- TempHum %>% filter(Ciudad_localidad == "Antártica Chilena")
+Ant <- ggplot(Ant, aes(x = mes, y = TempMedia)) + geom_point() +  stat_smooth(method = "lm", formula = y ~ x + I(x^2)) + ggtitle("Antartica")
+```
+
+Como combinar gráficos
+======================================
+class: small-code
+
+
+```r
+library(gridExtra)
+grid.arrange(Ari, Jua, San, Con, Pun, Ant, nrow = 3, ncol = 2)
+```
+
+![plot of chunk unnamed-chunk-25](Clase4Visualizacion-figure/unnamed-chunk-25-1.png)
+    
+Algunos gráficos interesantes hechos con ggplot
+======================================
+class: small-code
+
+
+```r
+library(SpatialBall)
+data("season2017")
+OffShotSeasonGraphPlayer(season2017, player = "Stephen Curry")
+```
+
+![plot of chunk unnamed-chunk-26](Clase4Visualizacion-figure/unnamed-chunk-26-1.png)
+
+    
+Algunos gráficos interesantes hechos con ggplot
+======================================
+class: small-code
+
+
+```r
+data("season2017")
+OffShotSeasonGraphPlayer(season2017, player = "DeAndre Jordan")
+```
+
+![plot of chunk unnamed-chunk-27](Clase4Visualizacion-figure/unnamed-chunk-27-1.png)
+
+Algunos gráficos interesantes
+======================================
+class: small-code
+
+
+```r
+ggplot(Weekly, aes(x = Semana, y = mean)) + 
+geom_ribbon(aes(ymax = max, ymin = min, fill = "red")) + 
+geom_ribbon(aes(ymax = mean + sd, ymin = mean - sd, fill = "blue"), alpha = 1) + 
+geom_line() + 
+  scale_fill_manual(name = "leyenda", values = c("blue", "red"), labels = c('Error estándar','Extremos')) + 
+ylab("polen de platano oriental /m³ de aire") + theme_classic()  + theme(legend.position="bottom") + 
+scale_x_continuous(breaks=seq(from = 2.5, to = 49.5, by = 4), labels = c("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"))
+```
+
+Algunos gráficos interesantes
+======================================
+class: small-code
+
+![plot of chunk unnamed-chunk-29](Clase4Visualizacion-figure/unnamed-chunk-29-1.png)
