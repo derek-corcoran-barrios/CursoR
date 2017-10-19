@@ -1,0 +1,140 @@
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+</style>
+
+<style>
+.small-code pre code {
+  font-size: 1em;
+}
+</style>
+
+
+Clase6 Loops (purrr) y bibliografia (rticles)
+========================================================
+author: Derek Corcoran
+date: "`r format(Sys.time(), '%d/%m, %Y')`"
+autosize: true
+transition: rotate
+
+¿Qué es un loop?
+========================================================
+incremental:true
+
+### Para Cada x has y
+
+* Copiar y pegar
+* for loops
+* familia apply
+* purrr!!!!!
+
+***
+```{r, echo = FALSE}
+knitr::include_graphics("purrr.jpg")
+```
+
+purrr
+========================================================
+* loops en el tidyverse
+* Pongan la base da datos "swapi" en su carpeta de trabajo (busquenla usando getwd())
+* ejecuten *load("swapi.rda")*
+  + ¿Cuantos elementos hay en people? (87)
+  + Quien es la primera persona en people? (luke skywalker)
+  + 
+
+
+
+========================================================
+
+# map(.x , .f)
+
+* para cada elemento de .x, has .f
+* .x = puede ser un vector, lista o dataframe (para cada columna)
+* .f = usualmente una función
+
+map()
+==========
+class: small-code
+
+* en cuantas naves estuvo luke
+
+```{r}
+load("swapi.rda")
+length(people[[1]]$films)
+```
+
+map()
+==========
+class: small-code
+
+```{r}
+library(purrr)
+map(people, ~ length(.x$starships))
+```
+
+Cuantos gramos al día sube un pollo?
+==============
+class: small-code
+```{r}
+data("ChickWeight")
+library(ggplot2)
+ggplot(ChickWeight, aes(x = Time, y = weight)) + geom_smooth(method = "lm") + ylim(c(0, 250))
+```
+
+***
+
+```{r}
+library(broom)
+PesoPorDia <- lm(weight ~ Time, data = ChickWeight)
+knitr::kable(tidy(PesoPorDia))
+```
+
+
+Cuantos gramos al día sube un pollo con la dieta 1?
+==============
+class: small-code
+
+```{r}
+library(dplyr)
+dieta1 <- ChickWeight %>% filter(Diet == 1)
+ggplot(dieta1, aes(x = Time, y = weight)) + geom_smooth(method = "lm") + ylim(c(0, 250))
+```
+
+***
+
+```{r}
+library(broom)
+PesoPorDiaD1 <- lm(weight ~ Time, data = dieta1)
+knitr::kable(tidy(PesoPorDiaD1))
+```
+
+Cuantos gramos al día sube un pollo con la dieta 1?
+==============
+class: small-code
+```{r}
+tidy(PesoPorDiaD1)
+tidy(PesoPorDiaD1)$estimate
+tidy(PesoPorDiaD1)$estimate[2]
+```
+Los pollos con la dieta 1 suben `r round(tidy(PesoPorDiaD1)$estimate[[2]], 2)` gramos al día
+
+Cuantos gramos al día sube un pollo en cada dieta?
+===========
+class: small-code
+
+```{r}
+data("ChickWeight")
+library(ggplot2)
+ggplot(ChickWeight, aes(x = Time, y = weight)) + geom_smooth(method = "lm", aes(fill = Diet))
+```
+
+map()
+====
+class: small-code
+
+```{r}
+library(broom)
+ChickWeight %>%  split(.$Diet) %>%  map(~ lm(weight ~ Time, data = .)) %>% map(~ tidy(.x)$estimate[2])
+```

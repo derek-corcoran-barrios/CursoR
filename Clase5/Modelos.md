@@ -106,6 +106,36 @@ Sacando más de los modelos con Broom
 ============================
 class: small-code
 
+![plot of chunk unnamed-chunk-4](Lineal.png)
+
+
+```r
+tidy(Eficiencia)
+```
+
+```
+         term  estimate std.error statistic      p.value
+1 (Intercept) 37.285126  1.877627 19.857575 8.241799e-19
+2          wt -5.344472  0.559101 -9.559044 1.293959e-10
+```
+
+Sacando más de los modelos con Broom
+============================
+class: small-code
+
+
+```r
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_smooth(method = "lm")
+```
+
+![plot of chunk unnamed-chunk-6](Modelos-figure/unnamed-chunk-6-1.png)
+
+
+Sacando más de los modelos con Broom
+============================
+class: small-code
+
 
 ```r
 MasDatos <- augment(Eficiencia)
@@ -137,7 +167,7 @@ library(ggplot2)
 ggplot(MasDatos, aes(x = wt, y = mpg)) + geom_point(aes(color = "blue")) + geom_point(aes(color = "red",y = .fitted)) + scale_color_manual(name = "Residuales", values = c("blue", "red"), labels = c("Observado", "Predicho")) + geom_segment(aes(xend = wt, yend = .fitted))
 ```
 
-![plot of chunk unnamed-chunk-5](Modelos-figure/unnamed-chunk-5-1.png)
+![plot of chunk unnamed-chunk-8](Modelos-figure/unnamed-chunk-8-1.png)
 
 
 Sacando más de los modelos con Broom
@@ -149,7 +179,7 @@ class: small-code
 hist(MasDatos$.resid)
 ```
 
-![plot of chunk unnamed-chunk-6](Modelos-figure/unnamed-chunk-6-1.png)
+![plot of chunk unnamed-chunk-9](Modelos-figure/unnamed-chunk-9-1.png)
 
 ***
 
@@ -212,7 +242,7 @@ library(ggplot2)
 ggplot(Titanic2, aes(x = Class, y = Survived)) + geom_violin(aes(fill = Sex)) 
 ```
 
-![plot of chunk unnamed-chunk-9](Modelos-figure/unnamed-chunk-9-1.png)
+![plot of chunk unnamed-chunk-12](Modelos-figure/unnamed-chunk-12-1.png)
 
 Modelo lineal generalizado (familia: binomial)
 ========================================================
@@ -353,7 +383,7 @@ library(gridExtra)
 grid.arrange(MejorGraph, MasMenosGraph, ncol = 1)
 ```
 
-![plot of chunk unnamed-chunk-16](Modelos-figure/unnamed-chunk-16-1.png)
+![plot of chunk unnamed-chunk-19](Modelos-figure/unnamed-chunk-19-1.png)
 
 
 Expandiendo los modelos que puedo usar paquete caret
@@ -409,9 +439,9 @@ Eficiencia3$results
 
 ```
   degree nprune     RMSE  Rsquared    RMSESD RsquaredSD
-1      1      2 3.341844 0.7831312 1.0609876 0.08476131
-2      1      3 3.105995 0.8207633 0.7587624 0.06988534
-3      1      5 3.066564 0.8163969 0.6674759 0.07568634
+1      1      2 3.089513 0.7582406 0.8052680  0.1126395
+2      1      3 3.039855 0.7588059 0.7055485  0.1055907
+3      1      5 3.011795 0.7628268 0.7078696  0.1002260
 ```
 
 función train (clasificación)
@@ -437,9 +467,9 @@ Especies$results
 
 ```
     cp  Accuracy     Kappa AccuracySD    KappaSD
-1 0.00 0.9503396 0.9247488 0.02239978 0.03404257
-2 0.44 0.7757382 0.6700503 0.16770732 0.24383029
-3 0.50 0.5006536 0.2819201 0.16388414 0.21757026
+1 0.00 0.9339355 0.9004116  0.0287348 0.04298657
+2 0.44 0.8333194 0.7551549  0.1529923 0.21978473
+3 0.50 0.4662235 0.2253695  0.1592222 0.22421450
 ```
 
 función train (clasificación)
@@ -452,7 +482,7 @@ library(rpart.plot)
 rpart.plot(Especies$finalModel)
 ```
 
-![plot of chunk unnamed-chunk-22](Modelos-figure/unnamed-chunk-22-1.png)
+![plot of chunk unnamed-chunk-25](Modelos-figure/unnamed-chunk-25-1.png)
 
 Para la próxima clase
 =====================

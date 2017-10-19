@@ -81,6 +81,28 @@ Sacando más de los modelos con Broom
 ============================
 class: small-code
 
+```{r, echo=FALSE}
+knitr::include_graphics("Lineal.png")
+```
+
+```{r}
+tidy(Eficiencia)
+```
+
+Sacando más de los modelos con Broom
+============================
+class: small-code
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(x = wt, y = mpg)) + geom_smooth(method = "lm")
+```
+
+
+Sacando más de los modelos con Broom
+============================
+class: small-code
+
 ```{r}
 MasDatos <- augment(Eficiencia)
 knitr::kable(head(MasDatos, 10))
