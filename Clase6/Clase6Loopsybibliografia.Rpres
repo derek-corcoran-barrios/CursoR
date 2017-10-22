@@ -175,16 +175,89 @@ Temperaturas <- map(.x = ArchivosTemp, .f = read_csv) %>% map(~rename(.x, Temper
 Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time))) %>% map(~select(.x, Date.Time, Temperatura))
 ```
 
+¿Qué nos falta?
+====
+class: small-code
+incremental:true
 
-Tipos de map
-==========
+```{r, eval=FALSE}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`) %>% select(Date.Time, Value) %>% mutate(Date.Time = dmy_hms(Date.Time)) %>% mutate(ID = "IB15")
+```
+
+```{r, eval=FALSE}
+... %>% mutate(ID = "IB15")
+```
+
+* Necesitamos un vector con todos lo ID de los sitios
+* *stringr*, paquete adyacente al tidyverso que nos permite trabajar con caracteres
+* Donde tenemos los nombres de los sitios?
+
+```{r}
+library(stringr)
+setwd("/home/derek/Documents/CursoR/Clase6/T&H")
+ArchivosTemp <- list.files(pattern = "Tem.csv")
+IDs <- str_replace(ArchivosTemp, "Tem.csv", "")
+IDs
+```
+
+Ahora necesitamos trabajar con 2 archivos
+=====
+incremental:true
+# map2(.x , .y, .f)
+
+* para cada elemento de .x, has .f
+* .x = puede ser un vector, lista o dataframe (para cada columna)
+* .y = segundo archivo, puede ser un vector, lista o dataframe 
+* .f = usualmente una función
+* Siempre entrega una lista
+
+Sigamos con el ejercicio
+===========
+
+
+```{r, eval=FALSE}
+Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time, truncated = 1))) %>% map(~select(.x, Date.Time, Temperatura)) %>% map2(.y = IDs, ~ mutate(.x, ID = .y))
+```
+
+Para finalizar el ejercicio
+===========
+class: small-code
+incremental:true
+
+* Tenemos una lista con 114 data frames
+* Necesitamos guardarlo en uno
+* funcion *reduce* de purrr
+
+```{r, eval=FALSE}
+library(purrr)
+x <- c(1,2,3,4,5,6,7,8,9,10)
+map(.x =x, .f = sqrt)
+```
+
+```{r}
+library(purrr)
+x <- c(1,2,3,4,5,6,7,8,9,10)
+map(.x =x, .f = sqrt) %>% reduce(c)
+```
+
+* Para unir varios data frame *rbind*
+
+Para finalizar el ejercicio
+===========
 class: small-code
 
-* *map()* entrega una lista :(
-* *map_lgl()* entrega un vector logico
-* *map_int()* entrega un vector de valores enteros
-* *map_dbl()* entrega un vector numerico
-* *map_chr()* entrega un vector de caracteres
-* *walk()* no entrega nada, pero hace algo (exporta archivos, hace gráficos, etc)
-* *reduce()*
+```{r}
+library(readr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(stringr)
+setwd("/home/derek/Documents/CursoR/Clase6/T&H")
+ArchivosTemp <- list.files(pattern = "Tem.csv")
+IDs <- str_replace(ArchivosTemp, "Tem.csv", "")
+Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time, truncated = 1))) %>% map(~select(.x, Date.Time, Temperatura)) %>% map2(.y = IDs, ~ mutate(.x, ID = .y)) %>% reduce(rbind) 
+
+Temperaturas
+```
 

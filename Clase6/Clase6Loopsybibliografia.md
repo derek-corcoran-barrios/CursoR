@@ -394,16 +394,138 @@ Temperaturas <- map(.x = ArchivosTemp, .f = read_csv) %>% map(~rename(.x, Temper
 Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time))) %>% map(~select(.x, Date.Time, Temperatura))
 ```
 
+¿Qué nos falta?
+====
+class: small-code
+incremental:true
 
-Tipos de map
-==========
+
+```r
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`) %>% select(Date.Time, Value) %>% mutate(Date.Time = dmy_hms(Date.Time)) %>% mutate(ID = "IB15")
+```
+
+
+```r
+... %>% mutate(ID = "IB15")
+```
+
+* Necesitamos un vector con todos lo ID de los sitios
+* *stringr*, paquete adyacente al tidyverso que nos permite trabajar con caracteres
+* Donde tenemos los nombres de los sitios?
+
+
+```r
+library(stringr)
+setwd("/home/derek/Documents/CursoR/Clase6/T&H")
+ArchivosTemp <- list.files(pattern = "Tem.csv")
+IDs <- str_replace(ArchivosTemp, "Tem.csv", "")
+IDs
+```
+
+```
+  [1] "H1F102"  "H1F105"  "H1F106"  "H1F107"  "H1F108"  "H1FS3"   "H1FS4"  
+  [8] "H1FS5"   "H1FS8"   "H1NF109" "H1NF111" "H1NF112" "H1NF113" "H1NF114"
+ [15] "H1NF115" "H1NF116" "H1NF118" "H1NFS11" "H1NFS12" "H1NFS5"  "H1NFS9" 
+ [22] "H2F119"  "H2F120"  "H2F121"  "H2F123"  "H2F124"  "H2F126"  "H2FS12" 
+ [29] "H2FS2"   "H2FS5"   "H2FS6"   "H2N128"  "H2NF127" "H2NF130" "H2NF132"
+ [36] "H2NF133" "H2NF134" "H2NF135" "H2NF137" "H2NF138" "H2NF140" "H2NF141"
+ [43] "H2NF142" "H2NF143" "H2NFS4"  "H2NFS5"  "H2NFS6"  "H2NFS8"  "H2NFS9" 
+ [50] "H3F144"  "H3F146"  "H3F147"  "H3F148"  "H3F150"  "H3F151"  "H3FS12" 
+ [57] "H3FS7"   "H3FS8"   "H3NF152" "H3NF153" "H3NF154" "H3NF155" "H3NF156"
+ [64] "H3NF157" "H3NF159" "H3NFS10" "H3NFS1"  "H3NFS3"  "H3NFS4"  "H3NFS9" 
+ [71] "H4F160"  "H4F161"  "H4F164"  "H4F165"  "H4F166"  "H4FS11"  "H4FS7"  
+ [78] "H4FS8"   "H4FS9"   "H4NF170" "H4NF171" "H4NF172" "H4NF173" "H4NF174"
+ [85] "H4NF175" "H4NFS10" "H4NFS1"  "H4NFS4"  "H4NFS5"  "H4NFS9"  "H5F176" 
+ [92] "H5F177"  "H5F179"  "H5F182"  "H5FS10"  "H5FS12"  "H5FS3"   "H5FS4"  
+ [99] "H5FS7"   "H5NF183" "H5NF184" "H5NF185" "H5NF186" "H5NF187" "H5NF190"
+[106] "H5NF192" "H5NFS10" "H5NFS2"  "H5NFS6"  "IB10"    "IB15"    "IB26"   
+[113] "IB27"    "OB4"    
+```
+
+Ahora necesitamos trabajar con 2 archivos
+=====
+incremental:true
+# map2(.x , .y, .f)
+
+* para cada elemento de .x, has .f
+* .x = puede ser un vector, lista o dataframe (para cada columna)
+* .y = segundo archivo, puede ser un vector, lista o dataframe 
+* .f = usualmente una función
+* Siempre entrega una lista
+
+Sigamos con el ejercicio
+===========
+
+
+
+```r
+Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time, truncated = 1))) %>% map(~select(.x, Date.Time, Temperatura)) %>% map2(.y = IDs, ~ mutate(.x, ID = .y))
+```
+
+Para finalizar el ejercicio
+===========
+class: small-code
+incremental:true
+
+* Tenemos una lista con 114 data frames
+* Necesitamos guardarlo en uno
+* funcion *reduce* de purrr
+
+
+```r
+library(purrr)
+x <- c(1,2,3,4,5,6,7,8,9,10)
+map(.x =x, .f = sqrt)
+```
+
+
+```r
+library(purrr)
+x <- c(1,2,3,4,5,6,7,8,9,10)
+map(.x =x, .f = sqrt) %>% reduce(c)
+```
+
+```
+ [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751
+ [8] 2.828427 3.000000 3.162278
+```
+
+* Para unir varios data frame *rbind*
+
+Para finalizar el ejercicio
+===========
 class: small-code
 
-* *map()* entrega una lista :(
-* *map_lgl()* entrega un vector logico
-* *map_int()* entrega un vector de valores enteros
-* *map_dbl()* entrega un vector numerico
-* *map_chr()* entrega un vector de caracteres
-* *walk()* no entrega nada, pero hace algo (exporta archivos, hace gráficos, etc)
-* *reduce()*
+
+```r
+library(readr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(stringr)
+setwd("/home/derek/Documents/CursoR/Clase6/T&H")
+ArchivosTemp <- list.files(pattern = "Tem.csv")
+IDs <- str_replace(ArchivosTemp, "Tem.csv", "")
+Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time, truncated = 1))) %>% map(~select(.x, Date.Time, Temperatura)) %>% map2(.y = IDs, ~ mutate(.x, ID = .y)) %>% reduce(rbind) 
+
+Temperaturas
+```
+
+```
+# A tibble: 20,223 x 3
+             Date.Time Temperatura     ID
+                <dttm>       <int>  <chr>
+ 1 2016-07-01 14:55:00          28 H1F102
+ 2 2016-07-01 15:55:00          24 H1F102
+ 3 2016-07-01 16:55:00          25 H1F102
+ 4 2016-07-01 17:55:00          25 H1F102
+ 5 2016-07-01 18:55:00          25 H1F102
+ 6 2016-07-01 19:55:00          25 H1F102
+ 7 2016-07-01 20:55:00          24 H1F102
+ 8 2016-07-01 21:55:00          24 H1F102
+ 9 2016-07-01 22:55:00          25 H1F102
+10 2016-07-01 23:55:00          25 H1F102
+# ... with 20,213 more rows
+```
 
