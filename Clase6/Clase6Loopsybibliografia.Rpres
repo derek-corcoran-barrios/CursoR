@@ -99,13 +99,8 @@ incremental:true
 knitr::include_graphics("purrr.jpg")
 ```
 
-Funciones de purrr
-==========
-
-* *map()*, para cada elemento de .x, has .f y entrega una lista
-* *walk()*,
-
 ========================================================
+class: small-code
 
 # map(.x , .f)
 
@@ -113,6 +108,73 @@ Funciones de purrr
 * .x = puede ser un vector, lista o dataframe (para cada columna)
 * .f = usualmente una función
 * Siempre entrega una lista
+
+```{r}
+library(purrr)
+x <- c(1,2,3,4,5,6,7,8,9,10)
+map(.x =x, .f = sqrt)
+```
+
+Volvamos a la receta basica
+===========
+class: small-code
+incremental:true
+```{r, eval=FALSE}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`) %>% select(Date.Time, Value) %>% mutate(Date.Time = dmy_hms(Date.Time)) %>% mutate(ID = "IB15")
+```
+
+* Vamos a la primera parte
+
+```{r, eval=FALSE}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv")
+```
+
+* ¿Que queremos?
+
+```{r, eval=FALSE}
+Temperaturas <- map(.x = ArchivosTemp, .f = read_csv)
+```
+
+* Necesitamos un vector o lista *ArchivosTemp* que contenga todos los archivos que vamos a leer
+
+Si solo existiera una función que leyera todos los archivos de una carpeta
+========
+class: small-code
+incremental:true
+```{r, echo=FALSE}
+knitr::include_graphics("Dexter_thinking.jpg")
+```
+
+```{r}
+setwd("/home/derek/Documents/CursoR/Clase6/T&H")
+Archivos <- list.files()
+```
+
+```{r}
+ArchivosTemp <- list.files(pattern = "Tem.csv")
+```
+
+Empezemos nuestro loop
+====
+class: small-code
+incremental:true
+
+```{r}
+Temperaturas <- map(.x = ArchivosTemp, .f = read_csv)
+```
+
+* Si usamos una función tipo dplyr agregamos un ~ antes de la función y un .x en vez del data frame
+
+```{r}
+Temperaturas <- map(.x = ArchivosTemp, .f = read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`))
+```
+
+* A partir de esto podemos avanzar mucho
+
+```{r}
+Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura = Value, Date.Time = `Date/Time`)) %>% map(~mutate(.x, Date.Time = dmy_hms(Date.Time))) %>% map(~select(.x, Date.Time, Temperatura))
+```
+
 
 Tipos de map
 ==========
