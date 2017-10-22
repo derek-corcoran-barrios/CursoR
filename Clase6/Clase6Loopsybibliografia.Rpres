@@ -19,12 +19,76 @@ date: "`r format(Sys.time(), '%d/%m, %Y')`"
 autosize: true
 transition: rotate
 
+Ejercicio
+===================
+incremental:true
+class: small-code
+
+* Leer el archivo IB15Tem.csv de la carpeta T&H
+* Este archivo es la temperatura medida cada una hora del sitio de estudio IB15
+* Asegurarse que las fechas estén en formato fecha y no texto
+* Eliminar columnas innecesarias
+* Agregar una columna con el ID del sitio, en este caso IB15
+
+```{r}
+library(readr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+```
+
+
+Ejercicio
+===================
+incremental:true
+class: small-code
+
+```{r}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv")
+```
+
+
+```{r}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`)
+```
+
+```{r}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`) %>% select(Date.Time, Temperatura)
+```
+
+```{r}
+IB15Tem <- read_csv("~/Documents/CursoR/Clase6/T&H/IB15Tem.csv") %>% rename(Temperatura = Value, Date.Time = `Date/Time`) %>% select(Date.Time, Temperatura) %>% mutate(Date.Time = dmy_hms(Date.Time)) %>% mutate(ID = "IB15")
+
+```
+
+Ejercicio
+===================
+class: small-code
+```{r}
+knitr::kable(IB15Tem)
+```
+
+Ejercicio
+===================
+class: small-code
+
+```{r}
+ggplot(IB15Tem, aes(x = Date.Time, y = Temperatura)) + geom_line() + theme_classic()
+```
+
+
+========================================================
+# ¿Como lo hacemos con todos los archivos de la carpeta H&T?
+
+ya tenemos una receta
+
 ¿Qué es un loop?
 ========================================================
 incremental:true
 
 ### Para Cada x has y
 
+* Creamos la receta
 * Copiar y pegar
 * for loops
 * familia apply
@@ -35,16 +99,11 @@ incremental:true
 knitr::include_graphics("purrr.jpg")
 ```
 
-purrr
-========================================================
-* loops en el tidyverse
-* Pongan la base da datos "swapi" en su carpeta de trabajo (busquenla usando getwd())
-* ejecuten *load("swapi.rda")*
-  + ¿Cuantos elementos hay en people? (87)
-  + Quien es la primera persona en people? (luke skywalker)
-  + 
+Funciones de purrr
+==========
 
-
+* *map()*, para cada elemento de .x, has .f y entrega una lista
+* *walk()*,
 
 ========================================================
 
@@ -53,88 +112,17 @@ purrr
 * para cada elemento de .x, has .f
 * .x = puede ser un vector, lista o dataframe (para cada columna)
 * .f = usualmente una función
+* Siempre entrega una lista
 
-map()
+Tipos de map
 ==========
 class: small-code
 
-* en cuantas naves estuvo luke
+* *map()* entrega una lista :(
+* *map_lgl()* entrega un vector logico
+* *map_int()* entrega un vector de valores enteros
+* *map_dbl()* entrega un vector numerico
+* *map_chr()* entrega un vector de caracteres
+* *walk()* no entrega nada, pero hace algo (exporta archivos, hace gráficos, etc)
+* *reduce()*
 
-```{r}
-load("swapi.rda")
-length(people[[1]]$films)
-```
-
-map()
-==========
-class: small-code
-
-```{r}
-library(purrr)
-map(people, ~ length(.x$starships))
-```
-
-Cuantos gramos al día sube un pollo?
-==============
-class: small-code
-```{r}
-data("ChickWeight")
-library(ggplot2)
-ggplot(ChickWeight, aes(x = Time, y = weight)) + geom_smooth(method = "lm") + ylim(c(0, 250))
-```
-
-***
-
-```{r}
-library(broom)
-PesoPorDia <- lm(weight ~ Time, data = ChickWeight)
-knitr::kable(tidy(PesoPorDia))
-```
-
-
-Cuantos gramos al día sube un pollo con la dieta 1?
-==============
-class: small-code
-
-```{r}
-library(dplyr)
-dieta1 <- ChickWeight %>% filter(Diet == 1)
-ggplot(dieta1, aes(x = Time, y = weight)) + geom_smooth(method = "lm") + ylim(c(0, 250))
-```
-
-***
-
-```{r}
-library(broom)
-PesoPorDiaD1 <- lm(weight ~ Time, data = dieta1)
-knitr::kable(tidy(PesoPorDiaD1))
-```
-
-Cuantos gramos al día sube un pollo con la dieta 1?
-==============
-class: small-code
-```{r}
-tidy(PesoPorDiaD1)
-tidy(PesoPorDiaD1)$estimate
-tidy(PesoPorDiaD1)$estimate[2]
-```
-Los pollos con la dieta 1 suben `r round(tidy(PesoPorDiaD1)$estimate[[2]], 2)` gramos al día
-
-Cuantos gramos al día sube un pollo en cada dieta?
-===========
-class: small-code
-
-```{r}
-data("ChickWeight")
-library(ggplot2)
-ggplot(ChickWeight, aes(x = Time, y = weight)) + geom_smooth(method = "lm", aes(fill = Diet))
-```
-
-map()
-====
-class: small-code
-
-```{r}
-library(broom)
-ChickWeight %>%  split(.$Diet) %>%  map(~ lm(weight ~ Time, data = .)) %>% map(~ tidy(.x)$estimate[2])
-```
