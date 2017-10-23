@@ -19,6 +19,7 @@ date: "`r format(Sys.time(), '%d/%m, %Y')`"
 autosize: true
 transition: rotate
 
+
 Ejercicio
 ===================
 incremental:true
@@ -261,3 +262,63 @@ Temperaturas <- ArchivosTemp %>% map(read_csv) %>% map(~rename(.x, Temperatura =
 Temperaturas
 ```
 
+for loops
+=========
+class: small-code
+incremental:true
+* for(i in 1:n){funcion, remplazando cada elemento por una i}
+* Por ejemplo para graficar
+```{r}
+setwd("/home/derek/Documents/CursoR/Clase6")
+library(raster)
+bio.stack <- readRDS("bio.stack.rds")
+plot(bio.stack)
+```
+
+for loops
+======
+class: small-code
+```{r}
+brks <- round(seq(floor(cellStats(bio.stack[[1]], stat = "min", na.rm = TRUE)), ceiling(cellStats(bio.stack[[8]], stat = "max", na.rm = TRUE)), length.out = 10), 0)
+nb <- length(brks)-1 
+colors <- rev(heat.colors(nb))
+plot(bio.stack, col = colors, breaks = brks)
+```
+
+for loops
+======
+class: small-code
+```{r}
+plot(bio.stack[[1]], col = colors, breaks = brks)
+```
+***
+
+```{r}
+years <- as.character(seq(2000, 2070, by = 10))
+plot(bio.stack[[1]], col = colors, breaks = brks, main = paste("Mean temperature", years[1]))
+```
+
+for loops
+======
+class: small-code
+```{r, eval=FALSE}
+library(animation)
+saveGIF(
+for(i in 1:8){
+  plot(bio.stack[[i]], col = colors, breaks = brks, main = paste("Mean temperature", years[i]))
+}
+,movie.name = "Mean_temp.gif", img.name = "Rplot", convert = "convert", clean = TRUE)
+```
+
+rticles
+======
+
+```{r, echo=FALSE}
+knitr::include_graphics("Rticles.png")
+```
+
+***
+
+```{r, echo=FALSE}
+knitr::include_graphics("rticles2.png")
+```

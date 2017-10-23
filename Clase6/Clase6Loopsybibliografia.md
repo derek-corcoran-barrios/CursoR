@@ -15,9 +15,10 @@
 Clase6 Loops (purrr) y bibliografia (rticles)
 ========================================================
 author: Derek Corcoran
-date: "22/10, 2017"
+date: "23/10, 2017"
 autosize: true
 transition: rotate
+
 
 Ejercicio
 ===================
@@ -529,3 +530,72 @@ Temperaturas
 # ... with 20,213 more rows
 ```
 
+for loops
+=========
+class: small-code
+incremental:true
+* for(i in 1:n){funcion, remplazando cada elemento por una i}
+* Por ejemplo para graficar
+
+```r
+setwd("/home/derek/Documents/CursoR/Clase6")
+library(raster)
+bio.stack <- readRDS("bio.stack.rds")
+plot(bio.stack)
+```
+
+![plot of chunk unnamed-chunk-26](Clase6Loopsybibliografia-figure/unnamed-chunk-26-1.png)
+
+for loops
+======
+class: small-code
+
+```r
+brks <- round(seq(floor(cellStats(bio.stack[[1]], stat = "min", na.rm = TRUE)), ceiling(cellStats(bio.stack[[8]], stat = "max", na.rm = TRUE)), length.out = 10), 0)
+nb <- length(brks)-1 
+colors <- rev(heat.colors(nb))
+plot(bio.stack, col = colors, breaks = brks)
+```
+
+![plot of chunk unnamed-chunk-27](Clase6Loopsybibliografia-figure/unnamed-chunk-27-1.png)
+
+for loops
+======
+class: small-code
+
+```r
+plot(bio.stack[[1]], col = colors, breaks = brks)
+```
+
+![plot of chunk unnamed-chunk-28](Clase6Loopsybibliografia-figure/unnamed-chunk-28-1.png)
+***
+
+
+```r
+years <- as.character(seq(2000, 2070, by = 10))
+plot(bio.stack[[1]], col = colors, breaks = brks, main = paste("Mean temperature", years[1]))
+```
+
+![plot of chunk unnamed-chunk-29](Clase6Loopsybibliografia-figure/unnamed-chunk-29-1.png)
+
+for loops
+======
+class: small-code
+
+```r
+library(animation)
+saveGIF(
+for(i in 1:8){
+  plot(bio.stack[[i]], col = colors, breaks = brks, main = paste("Mean temperature", years[i]))
+}
+,movie.name = "Mean_temp.gif", img.name = "Rplot", convert = "convert", clean = TRUE)
+```
+
+rticles
+======
+
+![plot of chunk unnamed-chunk-31](Rticles.png)
+
+***
+
+![plot of chunk unnamed-chunk-32](rticles2.png)
