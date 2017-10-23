@@ -35,6 +35,6 @@ A list
 - Item 1
 - Item 2
 
-Here are two sample references: @Feynman1963118 [@Dirac1953888].
+Here are two sample references: @Feynman1963118 [@Dirac1953888, @weber2017there].
 
 # References {#references .unnumbered}

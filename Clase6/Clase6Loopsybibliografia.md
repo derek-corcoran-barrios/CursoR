@@ -12,7 +12,7 @@
 </style>
 
 
-Clase6 Loops (purrr) y bibliografia (rticles)
+Clase6 Loops (purrr) y bibliografía (rticles)
 ========================================================
 author: Derek Corcoran
 date: "23/10, 2017"
@@ -261,7 +261,7 @@ ggplot(IB15Tem, aes(x = Date.Time, y = Temperatura)) + geom_line() + theme_class
 
 
 ========================================================
-# ¿Como lo hacemos con todos los archivos de la carpeta H&T?
+# ¿Cómo lo hacemos con todos los archivos de la carpeta H&T?
 
 ya tenemos una receta
 
@@ -286,7 +286,7 @@ class: small-code
 # map(.x , .f)
 
 * para cada elemento de .x, has .f
-* .x = puede ser un vector, lista o dataframe (para cada columna)
+* .x = puede ser un vector o lista
 * .f = usualmente una función
 * Siempre entrega una lista
 
@@ -381,7 +381,7 @@ incremental:true
 Temperaturas <- map(.x = ArchivosTemp, .f = read_csv)
 ```
 
-* Si usamos una función tipo dplyr agregamos un ~ antes de la función y un .x en vez del data frame
+* Si le agregamos argumentos a una función agregamos un ~ antes de la función y un .x en vez de los datos
 
 
 ```r
@@ -599,3 +599,58 @@ rticles
 ***
 
 ![plot of chunk unnamed-chunk-32](rticles2.png)
+
+rticles
+======
+
+![plot of chunk unnamed-chunk-33](Citation1.png)
+
+![plot of chunk unnamed-chunk-34](Citation2.png)
+***
+
+![plot of chunk unnamed-chunk-35](Citation3.png)
+
+rticles
+======
+
+![plot of chunk unnamed-chunk-36](Citation4.png)
+
+rticles
+======
+
+![plot of chunk unnamed-chunk-37](Citation5.png)
+
+Bibliofrafía en no Rmd
+======
+
+![plot of chunk unnamed-chunk-38](Citation6.png)
+
+para más informacion revisar [acá](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html).
+
+Bibliofrafía en no Rmd
+======
+incremental:true
+
+Evaluación 2 (31 de Octubre)
+
+* Transformar Rpubs de html a PDF
+* Debe tener
+    + Al menos un chunk
+    + Al menos un inline code
+    + Al menos una tabla con leyenda
+    + Al menos una figura con leyenda
+    + Al menos una cita y su bibliografía
+
+***
+
+Evaluación Final
+
+* Una presentación en Rpubs
+* Máximo 5 minutos
+* Debe tener
+    + Al menos un chunk
+    + Al menos un inline code
+    + Al menos una figura
+    + Para el martes 31 de Octubre
+    + Mínimo 3 diapositivas
+    

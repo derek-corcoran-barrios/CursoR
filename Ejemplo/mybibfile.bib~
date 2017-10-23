@@ -18,15 +18,3 @@
   doi     = "10.1016/0003-4916(63)90068-X",
   author  = "R.P Feynman and F.L {Vernon Jr.}"
 }
-
-@article{weber2017there,
-  title={Is there a correlation between abundance and environmental suitability derived from ecological niche modelling? A meta-analysis},
-  author={Weber, Marcelo M and Stevens, Richard D and Diniz-Filho, Jos{\'e} Alexandre F and Grelle, Carlos Eduardo V},
-  journal={Ecography},
-  volume={40},
-  number={7},
-  pages={817--828},
-  year={2017},
-  publisher={Wiley Online Library}
-}
-
