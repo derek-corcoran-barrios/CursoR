@@ -14,7 +14,7 @@
 Clase 7 Presentaciones En R
 ========================================================
 author: Derek Corcoran
-date: "23/10, 2017"
+date: "25/10, 2017"
 autosize: true
 transition: rotate
 
@@ -41,6 +41,7 @@ incremental:true
 * incremental:true justo debajo de los ==== es para que *bullets* pasen progresivamente
 * El titulo de la diapo va justo sobre los ====
 * si pongo *** entre dos elementos, apareceran en columans distintas
+* puedo darle distinto ancho a cada columna poniendo left: 70% justo bajo los === 
 
 personalización CSS 
 ========
@@ -120,3 +121,213 @@ $$
 
 
 * [acá](http://www.statpower.net/Content/310/R%20Stuff/SampleMarkdown.html) pueden ver varios ejemplos de como hacer ecuaciones
+
+
+======
+title: false
+
+# Recreo?
+Shiny!!!!!!!!
+===
+
+![plot of chunk unnamed-chunk-7](OpenShiny.png)
+
+***
+
+![plot of chunk unnamed-chunk-8](TipoDeShiny.png)
+
+* Dos archivos, server y app
+
+server, donde se hacen las cosas
+=====
+
+* Generamos gráficos, tablas, calculos, modelos, etc.
+* Estos outputs se crean en base a inputs que bienen de ui
+* la función principal es renderAlgo (renderTable, renderPlot, renderDataTable, etc.)
+* El orden no importa
+
+ui donde se muestran las cosas y 
+=====
+
+* Generamos inputs en sliders, cajas de selección, etc.
+* Al mover los inputs cambiamos los outputs
+* Escribimos tiulos parrafos y seleccionamos estilos
+* El orden importa
+
+Generando nuestro primer server
+==============
+
+
+```r
+library(shiny)
+library(ggplot2)
+data("mtcars")
+
+shinyServer(function(input, output) {
+   
+  output$distPlot <- renderPlot({
+    ggplot(mtcars, aes(x = mpg, y = wt)) + geom_point()
+  })
+  
+})
+```
+
+![plot of chunk unnamed-chunk-10](RunApp.png)
+
+==============
+class: small-code
+
+![plot of chunk unnamed-chunk-11](AgregarTabla.png)
+
+***
+
+
+```r
+shinyServer(function(input, output) {
+   
+  output$distPlot <- renderPlot({
+    ggplot(mtcars, aes(x = mpg, y = wt)) + geom_point()
+  })
+  output$Table <- renderTable({
+    mtcars
+  })
+  
+})
+```
+
+![plot of chunk unnamed-chunk-13](RunApp.png)
+
+====
+![plot of chunk unnamed-chunk-14](DondeTabla.png)
+
+***
+
+![plot of chunk unnamed-chunk-15](TablaUI.png)
+
+Arreglemos el UI
+=====
+class: small-code
+
+
+```r
+library(shiny)
+
+shinyUI(fluidPage(
+  
+  titlePanel("Old Faithful Geyser Data"),
+  
+  sidebarLayout(
+    sidebarPanel(
+       sliderInput("bins",
+                   "Number of bins:",
+                   min = 1,
+                   max = 50,
+                   value = 30)
+    ),
+    mainPanel(
+       plotOutput("distPlot")
+    )
+  )
+))
+```
+
+arreglemos la UI
+==========
+class: small-code
+
+
+```r
+library(shiny)
+
+shinyUI(fluidPage(
+  
+  titlePanel("Datos de motor trends de 1974"),
+  
+  sidebarLayout(
+    sidebarPanel(
+       sliderInput("bins",
+                   "Number of bins:",
+                   min = 1,
+                   max = 50,
+                   value = 30)
+    ),
+    mainPanel(
+       plotOutput("distPlot"),
+       tableOutput("Table")
+    )
+  )
+))
+```
+
+
+Agreguemos un input a la UI
+==========
+class: small-code
+
+
+```r
+library(shiny)
+
+shinyUI(fluidPage(
+  
+  titlePanel("Datos de motor trends de 1974"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("Variable",
+                  "Selecciona la Variable y:",
+                  choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                              "gear", "carb"),
+                  selected = "wt")
+    ),
+    mainPanel(
+       plotOutput("distPlot"),
+       tableOutput("Table")
+    )
+  )
+))
+```
+
+Ha interactuar con el input!!!!!!
+==========
+class: small-code
+
+* Vamos a server
+* Saquemos la tabla por ahora
+
+```r
+shinyServer(function(input, output) {
+  
+  output$distPlot <- renderPlot({
+    ggplot(mtcars, aes_string(x = input$Variable, y = "mpg")) + geom_point()
+  })
+  output$Table <- renderTable({
+    mtcars
+  })
+  
+})
+```
+
+Generando mas interacción
+==========
+class: small-code
+
+* UI
+
+```r
+    mainPanel(
+       plotOutput("distPlot"),
+       selectInput("Modelo", "Selecciona el tipo de modelo:",
+                   choices = c("lm", "loess", "gam"), selected = "lm")
+    )
+```
+
+* Server
+
+
+```r
+output$distPlot <- renderPlot({
+    ggplot(mtcars, aes_string(x = input$Variable, y = "mpg")) + geom_smooth(method = input$Modelo) + geom_point()
+  })
+```
+
