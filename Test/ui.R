@@ -12,12 +12,23 @@ shinyUI(fluidPage(
                   "Selecciona la Variable x:",
                   choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
                               "gear", "carb"),
-                  selected = "wt")
+                  selected = "wt"),
+      sliderInput("YLIM", "Selecciona los límites del eje y:", min = 0, max = 40, 
+                  step = 2, value = c(0,20)
+                  ),
+      checkboxGroupInput("Factores", "Transformar en factores:",
+                         c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                           "gear", "carb"), selected = "am"),
+      selectInput("Color",
+                  "Color segun la variable:",
+                  choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                              "gear", "carb"))
     ),
     mainPanel(
        plotOutput("distPlot"),
-       selectInput("Modelo", "Selecciona el tipo de modelo:",
-                   choices = c("lm", "loess", "gam"), selected = "lm")
+       textInput("Formula", "Escribe la formula de tu modelo:",
+                   value =  "y ~ x + I(x^2)"),
+       submitButton("Actualizar modelo", icon("refresh"))
     )
   )
 ))
