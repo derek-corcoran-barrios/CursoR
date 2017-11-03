@@ -1,0 +1,24 @@
+---
+title: "Orden presentaciones"
+author: "Derek Corcoran"
+date: "October 31, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+## Orden cosas
+
+```{r}
+library(readr)
+library(lubridate)
+OrdenPres <- read_csv("~/Documents/CursoR/OrdenPres.csv")
+Nombres <- paste(OrdenPres$Nombre, OrdenPres$Apellido)
+set.seed(2017)
+Orden <- data.frame(Orden = 1:30, Nombre = c(Nombres[c(14,9,25)],sample(Nombres[-c(9,14,15,25)], 27, replace = FALSE)))
+knitr::kable(Orden)
+write.csv(Orden, "Orden.csv")
+```
+

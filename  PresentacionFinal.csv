@@ -1,0 +1,32 @@
+Orden,Nombre,Puntos,inline code,grafico,3 diapos,5mins,Punto extra analisis,Consejo,Nota,Total,Porcentaje,NotaPresentacion
+1,Ana Madriaza,0.8,1,1,1,1,0.5,Separar por especie,,5.3,1.06,7
+2,Giorgia Graells,0.95,1,1,1,1,0.5,Test de independencia tipo chi cuadrado,,5.45,1.09,7
+3,Guillermo Ramirez,0.7,1,0.9,1,1,0,,grafico cortado,4.6,0.92,6.4
+4,Sergio Vargas,0.8,1,1,1,1,0.5,,,5.3,1.06,7
+5,Nicole Morales,0,0,0,0,0,0,,No vino,0,0,1
+6,Jonathan Lagos,0.9,1,1,1,1,0.5,Tiempo Continuo,,5.4,1.08,7
+7,María García,0.95,0,1,1,1,0.8,,,4.75,0.95,6.6
+8,Francisca Parada,0.85,1,1,1,1,0.3,,,5.15,1.03,7
+9,Benito Rosende,0.5,1,1,1,1,-1.1,-0.1 error,,3.4,0.68,4.6
+10,Aldemar Acevedo,1,1,1,1,1,1,Revisa Plotly,,6,1.2,7
+11,Susana Grant,0.9,1,1,1,1,,Anova,,4.9,0.98,6.9
+12,Camilo Pinto,1,,1,1,1,1,Edad deviera ser cuadratico al menos y no lineal,,5,1,7
+13,Luis Damiani,1,1,1,1,1,0.7,anova,,5.7,1.14,7
+14,Valentina Zapata,0.9,1,1,1,1,0.7,Tiempo Continuo,,5.6,1.12,7
+15,Evelin Quilarque,0.95,1,1,1,1,1,,,5.95,1.19,7
+16,Diana Muñoz,0.8,1,0.5,1,1,0,,,4.3,0.86,6
+17,Gonzalo Valdivia,0.95,1,1,1,1,0.7,,,5.65,1.13,7
+18,Ignacio Wichmann,0.9,1,1,1,1,1,,Tabla cortada -.1,5.9,1.18,7
+19,VIcente Rojas,0.9,1,1,1,1,0.8,,,5.7,1.14,7
+20,Andres Ortiz,0.8,1,1,1,1,0.5,,-0.1 por errores,5.3,1.06,7
+21,Carolina Godoy,0.9,1,1,1,1,0,,,4.9,0.98,6.9
+22,Rodrigo Perez,0.9,0,1,1,1,0.5,,,4.4,0.88,6.1
+23,Jonathan Morales,0.95,1,1,1,1,0.9,,,5.85,1.17,7
+24,Jorge Ibañes,0.85,0,1,1,1,0.7,Regresion sigmoidea,,4.55,0.91,6.3
+25,Luis Armesto,0.95,1,1,1,1,0.99,,,5.94,1.188,7
+26,Oscar Huanel,0.75,1,1,1,1,0,,,4.75,0.95,6.6
+27,Jeniffer Correa,0.95,1,1,1,1,0.8,,,5.75,1.15,7
+28,Jenny Motta,0.8,0,1,1,1,0.5,,,4.3,0.86,6
+29,Jaime Alcorta,0.9,1,1,1,1,0.8,,,5.7,1.14,7
+30,Danitza Fuentes,0.9,1,1,1,1,0.7,,,5.6,1.12,7
+31,Daniela Molina,0.75,1,1,1,1,0.5,,,5.25,1.05,7

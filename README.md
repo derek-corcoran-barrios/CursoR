@@ -27,3 +27,5 @@
 # Evaluaciones
 
 * Pueden ver en este [link](http://rpubs.com/derek_corcoran/NotasBIO4022_2_2017) la evaluación de la primera tarea.
+* En este [link](http://rpubs.com/derek_corcoran/Eval2) pueden ver la evaluación de la segunda tarea
+* Finalmente en este [link](http://rpubs.com/derek_corcoran/NotasBIO4022_2_final2017) se encuentran las notas finales.

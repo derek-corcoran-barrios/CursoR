@@ -19,10 +19,10 @@ library(readr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-Notas <- read_csv("~/Downloads/Notas Curso de R - Sheet2.csv")
+Notas <- read_csv("Notas Curso de R - Sheet2.csv")
 datatable(Notas, caption = "Tabla 1, Notas y puntajes de la evaluación 1",style = "bootstrap", rownames = FALSE,  options = list(
   autoWidth = TRUE,
-  columnDefs = list(list(width = '100px', targets = c(0))), pageLength = 30
+  columnDefs = list(list(width = '100px', targets = c(0))), pageLength = 32
 ))
 ```
 
@@ -34,3 +34,4 @@ En general las notas estubieron bastante bien, con una nota promedio de `r round
 Check <- Notas %>% rename(Chunk = `Al menos 1 chunk`, Inline = `Al menos un inline code`, Tabla = `Al menos una tabla con leyenda`, Figura = `Al menos una figura con leyenda`, Rpubs = `Subido a rpubs`)%>% gather(key = Item, value = Puntaje, -Rut, -porcentaje, -Nota, -total)
 ggplot(Check, aes(x = Item, y = Puntaje)) + geom_violin(aes(color = Item)) + geom_jitter(aes(color = Item))
 ```
+

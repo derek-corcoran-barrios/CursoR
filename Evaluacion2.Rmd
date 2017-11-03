@@ -1,0 +1,36 @@
+---
+title: "Evaluación 2 Curso BIO 4022. Análisis y manipulación de datos en R"
+author: "Derek Corcoran"
+date: "`r format(Sys.time(), '%d/%m, %Y')`"
+output: 
+  html_document:
+    fig_caption: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+Estimados, ahí van las notas y desgloce de puntaje de la evaluación 2. Al igual que en la evaluación anterior los puntajes eran solo 1 o 0 dependiendo si fue logrado o no un item. Los dos únicos items que podían tener un valor fraccionario eran si tenían tabla y figuras con leyenda. En ese caso otorgué 0.5 puntos a las personas que hicieron la tabla y/o figura pero no incluyeron la leyenda. Valores mayores a 0.5 y menores a 1, se les otorgó a personas que lograron poner una leyenda, pero no lo hicieron programaticamente.
+
+```{r}
+library(DT)
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+Notas <- read_csv("~/Documents/CursoR/Evaluacion2.csv") %>% select(-Nombre, - Apellido, -total, -porcentaje) %>% arrange(Rut)
+datatable(Notas, caption = "Tabla 1, Notas y puntajes de la evaluación 2",style = "bootstrap", rownames = FALSE,  options = list(
+  autoWidth = TRUE,
+  columnDefs = list(list(width = '100px', targets = c(0))), pageLength = 32
+))
+```
+
+Me alegra ver como se vé en la figura 1 no hay ningún item que tenga problemas generalizados, espero que con esto puedan generar una presentación interesante para el martes.
+
+En general las notas estubieron bastante bien, con una nota promedio de `r round(mean(Notas$Nota), 1)`, de todas formas si tienen dudas no duden en escribirme.
+
+```{r, fig.cap= "Figura 1, distribución de los puntajes de cada una de las preguntas"}
+Check <- Notas %>% rename(Chunk = `Al menos 1 chunk`, Inline = `Al menos un inline code`, Tabla = `Al menos una tabla con leyenda`, Figura = `Al menos una figura con leyenda`, PDF = `Transformado a PDF`)%>% gather(key = Item, value = Puntaje, -Rut, -Nota)
+ggplot(Check, aes(x = Item, y = Puntaje)) + geom_violin(aes(color = Item)) + geom_jitter(aes(color = Item))
+```

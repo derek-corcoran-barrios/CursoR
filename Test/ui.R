@@ -8,26 +8,31 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      selectInput("Variable",
+      fileInput("File", "Elije tu archivo", 
+                accept = c(".csv"), 
+                placeholder = "No file selected"),
+      selectInput("VariableX",
                   "Selecciona la Variable x:",
-                  choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
-                              "gear", "carb"),
+                  choices =  c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                               "gear", "carb"),
                   selected = "wt"),
-      sliderInput("YLIM", "Selecciona los límites del eje y:", min = 0, max = 40, 
-                  step = 2, value = c(0,20)
-                  ),
+      selectInput("VariableY",
+                  "Selecciona la Variable y:",
+                  choices =  c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                               "gear", "carb"),
+                  selected = "mpg"),
       checkboxGroupInput("Factores", "Transformar en factores:",
                          c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
-                           "gear", "carb"), selected = "am"),
-      selectInput("Color",
-                  "Color segun la variable:",
-                  choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
-                              "gear", "carb"))
+                           "gear", "carb"), selected = "am")
     ),
     mainPanel(
        plotOutput("distPlot"),
        textInput("Formula", "Escribe la formula de tu modelo:",
                    value =  "y ~ x + I(x^2)"),
+       selectInput("Color",
+                   "Variable secundaria:",
+                   choices = c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", 
+                               "gear", "carb")),
        submitButton("Actualizar modelo", icon("refresh"))
     )
   )
